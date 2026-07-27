@@ -38,6 +38,10 @@ RUN pnpm prisma generate
 # Build de Next.js (modo standalone — ver next.config.mjs)
 RUN pnpm run build
 
+# Generar prisma/init.sql para que el entrypoint lo aplique en runtime
+RUN pnpm prisma migrate diff --from-empty --to-schema prisma/schema.prisma --script 2>/dev/null > prisma/init.sql
+RUN head -1 prisma/init.sql | grep -q "CREATE" && echo "init.sql OK" || (echo "init.sql vacío" && exit 1)
+
 # ---------- 3) RUNNER: imagen final mínima ----------
 FROM node:22-bookworm-slim AS runner
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
