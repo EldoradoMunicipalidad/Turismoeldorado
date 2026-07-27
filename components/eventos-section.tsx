@@ -14,7 +14,6 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
-  events,
   eventTypes,
   priceFilters,
   type EventItem,
@@ -132,10 +131,13 @@ function EventCard({ ev }: { ev: EventItem }) {
             <Tag className="h-3 w-3" />
             {ev.isFree ? "Gratis" : ev.price ? formatPrice(ev.price) : "Con entrada"}
           </span>
-          <button className="inline-flex items-center gap-1 rounded-full bg-brand-green px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-brand-green-dark">
+          <a
+            href={`/eventos/${ev.id}`}
+            className="inline-flex items-center gap-1 rounded-full bg-brand-green px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-brand-green-dark"
+          >
             Más info
             <ArrowRight className="h-3 w-3" />
-          </button>
+          </a>
         </div>
       </div>
     </article>
@@ -214,17 +216,20 @@ function FeaturedEvent({ ev }: { ev: EventItem }) {
             <Tag className="h-3 w-3" />
             {ev.isFree ? "Gratis" : ev.price ? formatPrice(ev.price) : "Con entrada"}
           </span>
-          <button className="inline-flex items-center gap-1.5 rounded-full bg-brand-yellow px-4 py-2 text-xs font-semibold text-brand-green-dark transition-transform hover:scale-105">
+          <a
+            href={`/eventos/${ev.id}`}
+            className="inline-flex items-center gap-1.5 rounded-full bg-brand-yellow px-4 py-2 text-xs font-semibold text-brand-green-dark transition-transform hover:scale-105"
+          >
             Ver evento
             <ArrowRight className="h-3 w-3" />
-          </button>
+          </a>
         </div>
       </div>
     </article>
   )
 }
 
-export function EventosSection() {
+export function EventosSection({ events }: { events: EventItem[] }) {
   const [activeType, setActiveType] = useState("todos")
   const [activePrice, setActivePrice] = useState("todos")
   const [visibleCount, setVisibleCount] = useState(6)

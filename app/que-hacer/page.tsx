@@ -3,19 +3,32 @@ import { Compass } from "lucide-react"
 import { SiteHeader } from "@/components/site-header"
 import { QueHacerSection } from "@/components/que-hacer-section"
 import { SiteFooter } from "@/components/site-footer"
+import { readCollection } from "@/lib/db"
+import { categories } from "@/components/que-hacer-data"
 
 export const metadata: Metadata = {
-  title: "Qué hacer en Eldorado | Turismo Misiones",
+  title: "Qué hacer",
   description:
-    "Explorá todas las experiencias únicas que Eldorado tiene para ofrecer: naturaleza, aventura, turismo rural, deportes, cultura y más.",
+    "Descubrí todas las experiencias únicas que Eldorado tiene para ofrecer: naturaleza, aventura, turismo rural, deportes, cultura y full days en la selva misionera.",
+  alternates: { canonical: "/que-hacer" },
+  openGraph: {
+    title: "Qué hacer en Eldorado",
+    description:
+      "Naturaleza, aventura, turismo rural, deportes, cultura y más en Eldorado, Misiones.",
+    url: "/que-hacer",
+    images: ["/images/act-trekking.png"],
+  },
 }
 
-export default function QueHacerPage() {
+export const dynamic = "force-dynamic"
+
+export default async function QueHacerPage() {
+  const experiences = await readCollection("experiences")
+
   return (
     <main className="min-h-screen bg-background">
       <SiteHeader />
 
-      {/* Page banner */}
       <section className="relative overflow-hidden">
         <div className="relative min-h-[280px] sm:min-h-[320px]">
           <img
@@ -43,7 +56,7 @@ export default function QueHacerPage() {
         </div>
       </section>
 
-      <QueHacerSection />
+      <QueHacerSection experiences={experiences} categories={categories} />
 
       <SiteFooter />
     </main>

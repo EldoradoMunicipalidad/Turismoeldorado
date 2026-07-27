@@ -6,10 +6,41 @@ __v0_jsx-dev-runtime.ts
 .v0-trash/
 .vercel/
 
-# Environment variables
+# Environment variables (CRITICAL: nunca commitear .env con credenciales)
+.env
 .env*.local
+.env.local
+.env.development
+.env.production
 
 # Common ignores
 node_modules
 .next/
 .DS_Store
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build artifacts
+out/
+dist/
+build/
+*.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+
+# Prisma — el init.sql se genera desde el schema, no hace falta commitearlo
+prisma/init.sql
+
+# Test artifacts
+coverage/
+.nyc_output/

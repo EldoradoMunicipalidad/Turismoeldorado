@@ -1,0 +1,32 @@
+{
+  "name": "turismo-eldorado",
+  "description": "Sitio de turismo de Eldorado Misiones con admin interno y Neon DB",
+  "type": "dockerfile",
+  "dockerfile": "Dockerfile",
+  "build": {
+    "context": "."
+  },
+  "env": {
+    "NODE_ENV": "production",
+    "PORT": "3000",
+    "HOSTNAME": "0.0.0.0",
+    "NEXT_TELEMETRY_DISABLED": "1"
+  },
+  "requiredEnv": [
+    "DATABASE_URL"
+  ],
+  "healthcheck": {
+    "path": "/",
+    "interval": 30,
+    "timeout": 5,
+    "retries": 3,
+    "startPeriod": 20
+  },
+  "restart": "always",
+  "ports": [
+    {
+      "containerPort": 3000,
+      "protocol": "tcp"
+    }
+  ]
+}

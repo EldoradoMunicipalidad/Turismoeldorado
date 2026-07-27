@@ -17,9 +17,12 @@ export function EventsBanner() {
                 No te pierdas los eventos, festivales y actividades que se
                 realizan durante todo el año en Eldorado.
               </p>
-              <button className="mt-5 rounded-full bg-brand-yellow px-6 py-3 text-sm font-semibold text-brand-green-dark shadow transition-transform hover:scale-[1.03]">
+              <a
+                href="/eventos"
+                className="mt-5 inline-block rounded-full bg-brand-yellow px-6 py-3 text-sm font-semibold text-brand-green-dark shadow transition-transform hover:scale-[1.03]"
+              >
                 Ver calendario
-              </button>
+              </a>
             </div>
           </div>
           <div className="relative hidden min-h-[200px] lg:block">

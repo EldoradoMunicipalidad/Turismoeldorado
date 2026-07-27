@@ -1,0 +1,38 @@
+# Node / build artifacts
+node_modules
+.next
+out
+dist
+build
+.turbo
+*.tsbuildinfo
+
+# Prisma
+prisma/migrations/dev.db*
+
+# Tests / coverage
+coverage
+.nyc_output
+.vitest
+
+# Editor / OS
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Env files (jamás al contenedor — la config va por Dokploy env vars)
+.env
+.env.local
+.env.*.local
+
+# Misc
+*.swp
+*.bak
+README.md
+.husky

@@ -4,10 +4,12 @@ export function SectionHeading({
   title,
   subtitle,
   linkLabel,
+  linkHref = "#",
 }: {
   title: string
   subtitle?: string
   linkLabel?: string
+  linkHref?: string
 }) {
   return (
     <div className="mb-8 flex items-end justify-between gap-4">
@@ -22,7 +24,7 @@ export function SectionHeading({
       </div>
       {linkLabel && (
         <a
-          href="#"
+          href={linkHref}
           className="hidden shrink-0 items-center gap-1 text-sm font-medium text-brand-green transition-colors hover:text-brand-green-dark sm:flex"
         >
           {linkLabel}

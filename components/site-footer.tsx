@@ -28,10 +28,16 @@ function YoutubeIcon({ className }: { className?: string }) {
 }
 
 const enlaces = [
-  "Mapa del sitio",
-  "Guía turística",
-  "Términos y condiciones",
-  "Política de privacidad",
+  { label: "Mapa del sitio", href: "/mapa" },
+  { label: "Guía turística", href: "/guias-turisticas" },
+  { label: "Términos y condiciones", href: "/guias-turisticas#terminos" },
+  { label: "Política de privacidad", href: "/guias-turisticas#privacidad" },
+]
+
+const redes = [
+  { label: "Facebook", href: "https://www.facebook.com/turismoeldorado", Icon: FacebookIcon },
+  { label: "Instagram", href: "https://www.instagram.com/eldoradomisiones", Icon: InstagramIcon },
+  { label: "YouTube", href: "https://www.youtube.com/@eldoradomisiones", Icon: YoutubeIcon },
 ]
 
 export function SiteFooter() {
@@ -57,7 +63,9 @@ export function SiteFooter() {
           <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
             {/* Brand */}
             <div>
-              <LeafMark />
+              <a href="/" aria-label="Inicio">
+                <LeafMark />
+              </a>
               <p className="mt-4 text-sm text-white/70">
                 Naturaleza que enamora
               </p>
@@ -70,12 +78,12 @@ export function SiteFooter() {
               </h3>
               <ul className="mt-4 space-y-2.5">
                 {enlaces.map((e) => (
-                  <li key={e}>
+                  <li key={e.label}>
                     <a
-                      href="#"
+                      href={e.href}
                       className="text-sm text-white/75 transition-colors hover:text-brand-yellow"
                     >
-                      {e}
+                      {e.label}
                     </a>
                   </li>
                 ))}
@@ -86,25 +94,42 @@ export function SiteFooter() {
             <div>
               <h3 className="font-heading text-base font-semibold">Contacto</h3>
               <ul className="mt-4 space-y-3 text-sm text-white/75">
-                <li className="flex items-center gap-2.5">
-                  <Phone className="h-4 w-4 shrink-0 text-brand-yellow" />
-                  +54 9 3751 123456
+                <li>
+                  <a
+                    href="tel:+543751123456"
+                    className="flex items-center gap-2.5 transition-colors hover:text-brand-yellow"
+                  >
+                    <Phone className="h-4 w-4 shrink-0 text-brand-yellow" />
+                    +54 9 3751 123456
+                  </a>
                 </li>
-                <li className="flex items-center gap-2.5">
-                  <Mail className="h-4 w-4 shrink-0 text-brand-yellow" />
-                  turismo@eldorado.gob.ar
+                <li>
+                  <a
+                    href="mailto:turismo@eldorado.gob.ar"
+                    className="flex items-center gap-2.5 transition-colors hover:text-brand-yellow"
+                  >
+                    <Mail className="h-4 w-4 shrink-0 text-brand-yellow" />
+                    turismo@eldorado.gob.ar
+                  </a>
                 </li>
-                <li className="flex items-center gap-2.5">
-                  <MapPin className="h-4 w-4 shrink-0 text-brand-yellow" />
-                  Eldorado, Misiones, Argentina
+                <li>
+                  <a
+                    href="/informacion-util#transporte"
+                    className="flex items-center gap-2.5 transition-colors hover:text-brand-yellow"
+                  >
+                    <MapPin className="h-4 w-4 shrink-0 text-brand-yellow" />
+                    Eldorado, Misiones, Argentina
+                  </a>
                 </li>
               </ul>
               <div className="mt-4 flex gap-2.5">
-                {[FacebookIcon, InstagramIcon, YoutubeIcon].map((Icon, i) => (
+                {redes.map(({ label, href, Icon }) => (
                   <a
-                    key={i}
-                    href="#"
-                    aria-label="Red social"
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    aria-label={label}
                     className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-brand-yellow hover:text-brand-green-dark"
                   >
                     <Icon className="h-4 w-4" />
@@ -121,9 +146,20 @@ export function SiteFooter() {
               <p className="mt-4 text-sm text-white/75">
                 Recibí novedades y promociones para tu próxima visita.
               </p>
-              <form className="mt-4 flex items-center gap-2 rounded-full bg-white p-1 pl-4">
+              <form
+                action="mailto:turismo@eldorado.gob.ar"
+                method="post"
+                encType="text/plain"
+                className="mt-4 flex items-center gap-2 rounded-full bg-white p-1 pl-4"
+              >
+                <label htmlFor="newsletter-email" className="sr-only">
+                  Tu correo electrónico
+                </label>
                 <input
+                  id="newsletter-email"
                   type="email"
+                  name="email"
+                  required
                   placeholder="Tu correo electrónico"
                   className="min-w-0 flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
                 />

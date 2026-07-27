@@ -1,10 +1,23 @@
 "use client"
 
 import { useState } from "react"
-import { Clock, TicketCheck, Users, MapPin, Waves, Trees, Mountain, Bike, Landmark, Sun, ArrowRight, ChevronDown, ChevronUp } from "lucide-react"
+import {
+  Clock,
+  TicketCheck,
+  Users,
+  MapPin,
+  Waves,
+  Trees,
+  Mountain,
+  Bike,
+  Landmark,
+  Sun,
+  ArrowRight,
+  ChevronDown,
+} from "lucide-react"
 import { SectionHeading } from "@/components/section-heading"
 import { cn } from "@/lib/utils"
-import { experiences, categories, durationOptions, type Experience } from "@/components/que-hacer-data"
+import { durationOptions, type Experience } from "@/components/que-hacer-data"
 
 const categoryIcons: Record<string, typeof Trees> = {
   naturaleza: Trees,
@@ -39,77 +52,30 @@ const durationLabels: Record<string, string> = {
   "dia-completo": "Día completo",
 }
 
-function ExperienceCard({ exp }: { exp: Experience }) {
+type Category = { value: string; label: string }
+
+export function QueHacerSection({
+  experiences,
+  categories,
+}: {
+  experiences: Experience[]
+  categories: readonly Category[]
+}) {
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-      <div className="relative aspect-[4/3] overflow-hidden">
-        <img
-          src={exp.image || "/placeholder.svg"}
-          alt={exp.title}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-        <span
-          className={cn(
-            "absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold shadow-sm backdrop-blur-sm",
-            categoryColors[exp.category],
-          )}
-        >
-          {exp.title}
-        </span>
-      </div>
-      <div className="flex flex-1 flex-col p-4">
-        <div className="mb-1 flex items-center gap-1.5">
-          <span className={cn("inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium", categoryColors[exp.category])}>
-            {exp.category === "naturaleza" && <Waves className="h-3 w-3" />}
-            {exp.category === "aventura" && <Mountain className="h-3 w-3" />}
-            {exp.category === "turismo-rural" && <Bike className="h-3 w-3" />}
-            {exp.category === "deportes" && <Bike className="h-3 w-3" />}
-            {exp.category === "cultura" && <Landmark className="h-3 w-3" />}
-            {exp.category === "full-day" && <Sun className="h-3 w-3" />}
-            {categories.find(c => c.value === exp.category)?.label}
-          </span>
-        </div>
-        <h3 className="font-heading text-base font-bold text-foreground">
-          {exp.title}
-        </h3>
-        <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
-          {exp.description}
-        </p>
-        <div className="mt-auto flex flex-wrap items-center gap-2 pt-3">
-          <span className="inline-flex items-center gap-1 rounded-md bg-muted px-2 py-1 text-xs font-medium text-muted-foreground">
-            <Clock className="h-3 w-3" />
-            {durationLabels[exp.duration]}
-          </span>
-          {exp.requiresReservation && (
-            <span className="inline-flex items-center gap-1 rounded-md bg-amber-50 px-2 py-1 text-xs font-medium text-amber-700">
-              <TicketCheck className="h-3 w-3" />
-              Reserva
-            </span>
-          )}
-          {exp.kidFriendly && (
-            <span className="inline-flex items-center gap-1 rounded-md bg-sky-50 px-2 py-1 text-xs font-medium text-sky-700">
-              <Users className="h-3 w-3" />
-              Niños
-            </span>
-          )}
-          {exp.hasGuide && (
-            <span className="inline-flex items-center gap-1 rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700">
-              <MapPin className="h-3 w-3" />
-              Guía
-            </span>
-          )}
-        </div>
-        <button className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-xl bg-brand-green px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-green-dark">
-          Ver experiencia
-          <ArrowRight className="h-4 w-4" />
-        </button>
-      </div>
-    </article>
+    <QueHacerInner
+      experiences={experiences}
+      categories={categories}
+    />
   )
 }
 
-export function QueHacerSection() {
+function QueHacerInner({
+  experiences,
+  categories,
+}: {
+  experiences: Experience[]
+  categories: readonly Category[]
+}) {
   const [activeCategory, setActiveCategory] = useState("todas")
   const [selectedDuration, setSelectedDuration] = useState<string | null>(null)
   const [reservationOnly, setReservationOnly] = useState(false)
@@ -118,7 +84,8 @@ export function QueHacerSection() {
   const [visibleCount, setVisibleCount] = useState(6)
 
   const filtered = experiences.filter((exp) => {
-    if (activeCategory !== "todas" && exp.category !== activeCategory) return false
+    if (activeCategory !== "todas" && exp.category !== activeCategory)
+      return false
     if (selectedDuration && exp.duration !== selectedDuration) return false
     if (reservationOnly && !exp.requiresReservation) return false
     if (kidsOnly && !exp.kidFriendly) return false
@@ -183,13 +150,14 @@ export function QueHacerSection() {
 
       {/* Secondary filters */}
       <div className="mb-8 flex flex-wrap items-center gap-3">
-        {/* Duration chips */}
         <div className="flex items-center gap-1.5 rounded-xl border border-border bg-card p-1">
           {durationOptions.map((opt) => (
             <button
               key={opt.value}
               onClick={() => {
-                setSelectedDuration(selectedDuration === opt.value ? null : opt.value)
+                setSelectedDuration(
+                  selectedDuration === opt.value ? null : opt.value,
+                )
                 setVisibleCount(6)
               }}
               className={cn(
@@ -204,17 +172,26 @@ export function QueHacerSection() {
           ))}
         </div>
 
-        <FilterToggle active={reservationOnly} onChange={() => toggleFilter(setReservationOnly, reservationOnly)}>
+        <FilterToggle
+          active={reservationOnly}
+          onChange={() => toggleFilter(setReservationOnly, reservationOnly)}
+        >
           <TicketCheck className="h-3.5 w-3.5" />
           Con reserva
         </FilterToggle>
 
-        <FilterToggle active={kidsOnly} onChange={() => toggleFilter(setKidsOnly, kidsOnly)}>
+        <FilterToggle
+          active={kidsOnly}
+          onChange={() => toggleFilter(setKidsOnly, kidsOnly)}
+        >
           <Users className="h-3.5 w-3.5" />
           Apto niños
         </FilterToggle>
 
-        <FilterToggle active={guideOnly} onChange={() => toggleFilter(setGuideOnly, guideOnly)}>
+        <FilterToggle
+          active={guideOnly}
+          onChange={() => toggleFilter(setGuideOnly, guideOnly)}
+        >
           <MapPin className="h-3.5 w-3.5" />
           Con guía
         </FilterToggle>
@@ -232,19 +209,21 @@ export function QueHacerSection() {
         )}
       </div>
 
-      {/* Results count */}
       <p className="mb-6 text-sm text-muted-foreground">
         {filtered.length === 0
           ? "No encontramos experiencias con esos filtros."
           : `${filtered.length} experiencia${filtered.length !== 1 ? "s" : ""} encontrada${filtered.length !== 1 ? "s" : ""}`}
       </p>
 
-      {/* Grid */}
       {filtered.length > 0 && (
         <>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {visible.map((exp) => (
-              <ExperienceCard key={exp.id} exp={exp} />
+              <ExperienceCard
+                key={exp.id}
+                exp={exp}
+                categories={categories}
+              />
             ))}
           </div>
 
@@ -262,6 +241,90 @@ export function QueHacerSection() {
         </>
       )}
     </section>
+  )
+}
+
+function ExperienceCard({
+  exp,
+  categories,
+}: {
+  exp: Experience
+  categories: readonly Category[]
+}) {
+  return (
+    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+      <div className="relative aspect-[4/3] overflow-hidden">
+        <img
+          src={exp.image || "/placeholder.svg"}
+          alt={exp.title}
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+        <span
+          className={cn(
+            "absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold shadow-sm backdrop-blur-sm",
+            categoryColors[exp.category],
+          )}
+        >
+          {exp.title}
+        </span>
+      </div>
+      <div className="flex flex-1 flex-col p-4">
+        <div className="mb-1 flex items-center gap-1.5">
+          <span
+            className={cn(
+              "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium",
+              categoryColors[exp.category],
+            )}
+          >
+            {exp.category === "naturaleza" && <Waves className="h-3 w-3" />}
+            {exp.category === "aventura" && <Mountain className="h-3 w-3" />}
+            {exp.category === "turismo-rural" && <Bike className="h-3 w-3" />}
+            {exp.category === "deportes" && <Bike className="h-3 w-3" />}
+            {exp.category === "cultura" && <Landmark className="h-3 w-3" />}
+            {exp.category === "full-day" && <Sun className="h-3 w-3" />}
+            {categories.find((c) => c.value === exp.category)?.label}
+          </span>
+        </div>
+        <h3 className="font-heading text-base font-bold text-foreground">
+          {exp.title}
+        </h3>
+        <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+          {exp.description}
+        </p>
+        <div className="mt-auto flex flex-wrap items-center gap-2 pt-3">
+          <span className="inline-flex items-center gap-1 rounded-md bg-muted px-2 py-1 text-xs font-medium text-muted-foreground">
+            <Clock className="h-3 w-3" />
+            {durationLabels[exp.duration]}
+          </span>
+          {exp.requiresReservation && (
+            <span className="inline-flex items-center gap-1 rounded-md bg-amber-50 px-2 py-1 text-xs font-medium text-amber-700">
+              <TicketCheck className="h-3 w-3" />
+              Reserva
+            </span>
+          )}
+          {exp.kidFriendly && (
+            <span className="inline-flex items-center gap-1 rounded-md bg-sky-50 px-2 py-1 text-xs font-medium text-sky-700">
+              <Users className="h-3 w-3" />
+              Niños
+            </span>
+          )}
+          {exp.hasGuide && (
+            <span className="inline-flex items-center gap-1 rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700">
+              <MapPin className="h-3 w-3" />
+              Guía
+            </span>
+          )}
+        </div>
+        <a
+          href={`/que-hacer/${exp.id}`}
+          className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-xl bg-brand-green px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-green-dark"
+        >
+          Ver experiencia
+          <ArrowRight className="h-4 w-4" />
+        </a>
+      </div>
+    </article>
   )
 }
 

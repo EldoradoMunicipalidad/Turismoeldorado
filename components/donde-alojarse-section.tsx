@@ -24,7 +24,6 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
-  accommodations,
   typeOptions,
   serviceOptions,
   capacityOptions,
@@ -168,10 +167,13 @@ function AccommodationCard({ acc }: { acc: Accommodation }) {
         </div>
 
         <div className="mt-3 flex gap-2">
-          <button className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-brand-green px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-green-dark">
+          <a
+            href={`/donde-alojarse/${acc.id}`}
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-brand-green px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-green-dark"
+          >
             Ver alojamiento
             <ArrowRight className="h-4 w-4" />
-          </button>
+          </a>
         </div>
 
         {/* Social */}
@@ -196,7 +198,11 @@ function AccommodationCard({ acc }: { acc: Accommodation }) {
   )
 }
 
-export function DondeAlojarseSection() {
+export function DondeAlojarseSection({
+  accommodations,
+}: {
+  accommodations: Accommodation[]
+}) {
   const [selectedTypes, setSelectedTypes] = useState<string[]>([])
   const [selectedServices, setSelectedServices] = useState<string[]>([])
   const [selectedCapacities, setSelectedCapacities] = useState<string[]>([])

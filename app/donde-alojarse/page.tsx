@@ -3,19 +3,31 @@ import { Building2 } from "lucide-react"
 import { SiteHeader } from "@/components/site-header"
 import { DondeAlojarseSection } from "@/components/donde-alojarse-section"
 import { SiteFooter } from "@/components/site-footer"
+import { readCollection } from "@/lib/db"
 
 export const metadata: Metadata = {
-  title: "Dónde alojarse en Eldorado | Turismo Misiones",
+  title: "Dónde alojarse",
   description:
-    "Encontrá el alojamiento perfecto en Eldorado: hoteles, cabañas, estancias y hostels para todos los gustos y presupuestos.",
+    "Encontrá el alojamiento perfecto en Eldorado: hoteles, cabañas, estancias, lodges, complejos y campings para todos los gustos y presupuestos.",
+  alternates: { canonical: "/donde-alojarse" },
+  openGraph: {
+    title: "Dónde alojarse en Eldorado",
+    description:
+      "Hoteles, cabañas, estancias, lodges, complejos y campings en Eldorado, Misiones.",
+    url: "/donde-alojarse",
+    images: ["/images/reserva-bird.png"],
+  },
 }
 
-export default function DondeAlojarsePage() {
+export const dynamic = "force-dynamic"
+
+export default async function DondeAlojarsePage() {
+  const accommodations = await readCollection("accommodations")
+
   return (
     <main className="min-h-screen bg-background">
       <SiteHeader />
 
-      {/* Page banner */}
       <section className="relative overflow-hidden">
         <div className="relative min-h-[260px] sm:min-h-[300px]">
           <img
@@ -43,7 +55,7 @@ export default function DondeAlojarsePage() {
         </div>
       </section>
 
-      <DondeAlojarseSection />
+      <DondeAlojarseSection accommodations={accommodations} />
 
       <SiteFooter />
     </main>

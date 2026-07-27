@@ -3,19 +3,31 @@ import { CalendarDays } from "lucide-react"
 import { SiteHeader } from "@/components/site-header"
 import { EventosSection } from "@/components/eventos-section"
 import { SiteFooter } from "@/components/site-footer"
+import { readCollection } from "@/lib/db"
 
 export const metadata: Metadata = {
-  title: "Eventos en Eldorado | Turismo Misiones",
+  title: "Eventos",
   description:
-    "Calendario de eventos culturales y deportivos en Eldorado. Festivales, ferias, competencias y más durante todo el año.",
+    "Calendario completo de eventos culturales y deportivos en Eldorado, Misiones. Festivales, ferias, competencias y actividades durante todo el año.",
+  alternates: { canonical: "/eventos" },
+  openGraph: {
+    title: "Eventos en Eldorado",
+    description:
+      "Festivales, ferias, competencias y actividades durante todo el año en Eldorado.",
+    url: "/eventos",
+    images: ["/images/eventos-concert.png"],
+  },
 }
 
-export default function EventosPage() {
+export const dynamic = "force-dynamic"
+
+export default async function EventosPage() {
+  const events = await readCollection("events")
+
   return (
     <main className="min-h-screen bg-background">
       <SiteHeader />
 
-      {/* Page banner */}
       <section className="relative overflow-hidden">
         <div className="relative min-h-[260px] sm:min-h-[300px]">
           <img
@@ -43,7 +55,7 @@ export default function EventosPage() {
         </div>
       </section>
 
-      <EventosSection />
+      <EventosSection events={events} />
 
       <SiteFooter />
     </main>

@@ -1,0 +1,128 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================================
+//  MODELO GENÉRICO DE IMAGEN (bytea en Postgres)
+// ============================================================
+// Almacena el binario + mime. El cliente arma la URL data: URI
+// o se sirve desde una API route con el mime correcto.
+model ImageAsset {
+  id          String   @id @default(cuid())
+  filename    String
+  mime        String
+  bytes       Bytes
+  size        Int
+  width       Int?
+  height      Int?
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+// ============================================================
+//  1. EXPERIENCIAS ("Qué hacer")
+// ============================================================
+model Experience {
+  id                  String   @id
+  title               String
+  description         String
+  image               String   // URL/ruta (/images/...) o data: URI
+  category            String   // naturaleza | aventura | turismo-rural | deportes | cultura | full-day
+  duration            String   // 1h | medio-dia | dia-completo
+  requiresReservation Boolean
+  kidFriendly         Boolean
+  hasGuide            Boolean
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@index([category])
+}
+
+// ============================================================
+//  2. EVENTOS
+// ============================================================
+model Event {
+  id          String   @id
+  title       String
+  description String
+  image       String
+  type        String   // cultural | deportivo
+  date        String   // YYYY-MM-DD (formato texto, no Date, para no perder zona horaria)
+  time        String   // HH:MM
+  location    String
+  isFree      Boolean
+  price       Int?
+  highlight   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([type])
+  @@index([date])
+}
+
+// ============================================================
+//  3. ALOJAMIENTOS
+// ============================================================
+model Accommodation {
+  id          String   @id
+  name        String
+  description String
+  image       String
+  modalities  String[] // ["hotel", "cabana", ...]
+  services    Json     // { breakfast, pool, parking }
+  fullServices String[] // lista de servicios completos
+  capacity    Json     // { couples, families, sportsTeams }
+  location    String
+  phone       String?
+  whatsapp    String?
+  instagram   String?
+  website     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ============================================================
+//  4. RESTAURANTES
+// ============================================================
+model Restaurant {
+  id          String   @id
+  name        String
+  description String
+  image       String
+  foodTypes   String[] // ["regional", "pizza", ...]
+  priceRange  String   // economico | medio | alto
+  services    Json     // { delivery, parking, airCon, wifi, kidFriendly }
+  schedule    String
+  location    String
+  phone       String?
+  whatsapp    String?
+  instagram   String?
+  signature   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ============================================================
+//  5. ACTIVIDADES DEPORTIVAS
+// ============================================================
+model SportActivity {
+  id          String   @id
+  title       String
+  description String
+  image       String
+  disciplines String[]
+  category    String   // equipo | individual | acuatico | aventura
+  level       String   // todos | inicial | intermedio | avanzado
+  schedule    String
+  location    String
+  contact     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+}
