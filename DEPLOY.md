@@ -5,6 +5,10 @@
 - `Dockerfile` — Imagen multi-stage (deps → build → runner)
 - `dokploy.json` — Configuración reconocida por Dokploy
 - `scripts/entrypoint.sh` — Aplica schema a Neon y arranca Next.js
+- `middleware.ts` — Protege `/admin/*` con sesión JWT
+- `lib/auth.ts` — Helpers de sesión (sign/verify JWT, cookie httpOnly)
+- `lib/password.ts` — Hashing de contraseñas con bcryptjs
+- `prisma/seed-admin.ts` — Crea el primer admin (corre local, no en el contenedor)
 - `.env.example` — Template de variables de entorno (no subir el `.env` real)
 
 ## Deploy paso a paso
@@ -27,10 +31,14 @@ En Dokploy → tu service → **Environment**, agregá:
 | Variable | Valor | Notas |
 |----------|-------|-------|
 | `DATABASE_URL` | `postgresql://USER:PASS@ep-xxxxx-pooler.c-REGION.aws.neon.tech/neondb?sslmode=require` | **Sin `channel_binding=require`** — la quité en `prisma.config.ts` por compatibilidad |
+| `AUTH_SECRET` | string random de 32+ chars | Firma los JWT de sesión. Generala con: `openssl rand -hex 32`. **No la commitees nunca.** |
+| `ADMIN_USERNAME` | `admin` (o el que quieras) | Solo se usa la primera vez, en el seed. |
+| `ADMIN_PASSWORD` | clave fuerte (≥ 8 chars) | Solo se usa la primera vez, en el seed. |
 
-Sacá esta URL de **Neon Console → tu proyecto → Connect → Pooled connection**.
+Sacá la `DATABASE_URL` de **Neon Console → tu proyecto → Connect → Pooled connection**.
 
-⚠️ Si más adelante cambiás el plan de Neon o rotás credenciales, regenerá esta URL.
+⚠️ Si más adelante cambiás el plan de Neon o rotás credenciales, regenerá esa URL.
+⚠️ Si rotás `AUTH_SECRET`, todas las sesiones quedan inválidas (los usuarios tienen que volver a loguearse).
 
 ### 4. Build y deploy
 
@@ -58,6 +66,21 @@ node --env-file=.env scripts/seed.mjs || echo "seed falló"
 ```
 
 (Para que funcione, hay que convertir `prisma/seed.ts` a `.mjs` o agregar el CLI de Prisma al bundle — más complejo).
+
+### 5b. Crear el primer admin (autenticación)
+
+El panel `/admin` está protegido con login. Antes de entrar, creá el usuario admin apuntando a la **misma Neon que Dokploy**:
+
+```bash
+DATABASE_URL="<misma-URL-que-Dokploy>" \
+  ADMIN_USERNAME=admin \
+  ADMIN_PASSWORD="una-clave-fuerte" \
+  pnpm tsx prisma/seed-admin.ts
+```
+
+El script es idempotente: si el usuario ya existe, actualiza el hash de la contraseña. Útil también para rotar la clave.
+
+Después andá a `https://tu-dominio/admin/login` y entrá con esas credenciales. La sesión expira a los 7 días (cookie httpOnly firmada con JWT).
 
 ### 6. Verificar
 

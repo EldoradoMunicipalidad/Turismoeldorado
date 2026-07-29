@@ -25,6 +25,19 @@ model ImageAsset {
 }
 
 // ============================================================
+//  ADMINISTRADORES DEL PANEL
+// ============================================================
+// Login + sesión JWT. El seed inicial se hace con
+// `prisma/seed-admin.ts` leyendo ADMIN_USERNAME y ADMIN_PASSWORD.
+model Admin {
+  id           String    @id @default(cuid())
+  username     String    @unique
+  passwordHash String
+  createdAt    DateTime  @default(now())
+  lastLoginAt  DateTime?
+}
+
+// ============================================================
 //  1. EXPERIENCIAS ("Qué hacer")
 // ============================================================
 model Experience {
