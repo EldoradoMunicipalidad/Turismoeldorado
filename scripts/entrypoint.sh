@@ -6,6 +6,8 @@
 # =============================================================
 set -e
 
+echo "▶ [entrypoint] shell=$(basename "$0") bash=$(bash --version | head -1 | tr -d '\r')"
+
 # Tomar los primeros 40 chars de la URL para no loggear la contraseña
 DB_PREVIEW="${DATABASE_URL:0:40}"
 echo "▶ [entrypoint] DATABASE_URL=${DB_PREVIEW}..."

@@ -69,6 +69,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/prisma/init.sql ./prisma/init.sql
 COPY --from=builder --chown=nextjs:nodejs /app/scripts/apply-schema.mjs ./scripts/apply-schema.mjs
 COPY --from=builder --chown=nextjs:nodejs /app/scripts/entrypoint.sh ./scripts/entrypoint.sh
+RUN chmod +x /app/scripts/entrypoint.sh
 # Prisma config + prisma client generado
 COPY --from=builder --chown=nextjs:nodejs /app/prisma.config.ts ./prisma.config.ts
 COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
@@ -88,4 +89,4 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
   CMD wget -qO- http://127.0.0.1:3000/ > /dev/null || exit 1
 
 # El entrypoint aplica el schema a Neon y arranca Next.
-CMD ["./scripts/entrypoint.sh"]
+CMD ["bash", "./scripts/entrypoint.sh"]
