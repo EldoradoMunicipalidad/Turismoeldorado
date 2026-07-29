@@ -24,6 +24,7 @@ const statements = ddl
   .split(";")
   .map((s) => s.trim())
   .filter((s) => s.length > 0)
+  .filter((s) => /^(CREATE|ALTER|DROP|INSERT|UPDATE|DELETE|GRANT|REVOKE|COMMENT|TRUNCATE)/i.test(s))
 
 let applied = 0
 let skipped = 0

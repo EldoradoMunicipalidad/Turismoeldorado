@@ -41,7 +41,7 @@ RUN pnpm run build
 # Generar prisma/init.sql para que el entrypoint lo aplique en runtime.
 # Filtramos los warnings de libssl (van a stderr en este entorno) y los
 # logs de Prisma config (van a stdout).
-RUN pnpm prisma migrate diff --from-empty --to-schema prisma/schema.prisma --script 2>&1 | grep -vE "^(Loaded Prisma config|Prisma schema loaded|prisma:warn|Please manually install|If you're running)" > prisma/init.sql
+RUN pnpm prisma migrate diff --from-empty --to-schema prisma/schema.prisma --script 2>&1 | grep -vE "^(Loaded Prisma config|Prisma schema loaded|prisma:warn|Please manually install|If you're running|[│┌└])" > prisma/init.sql
 RUN grep -q "^CREATE " prisma/init.sql && echo "init.sql OK ($(grep -c "^CREATE " prisma/init.sql) statements)" || (echo "init.sql sin CREATE statements" && cat prisma/init.sql && exit 1)
 
 # ---------- 3) RUNNER: imagen final mínima ----------
