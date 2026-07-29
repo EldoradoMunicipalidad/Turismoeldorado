@@ -1,5 +1,17 @@
 import { Compass, Play, Map, Navigation, MapPin, BookOpen } from "lucide-react"
 
+type HomeConfigInput = {
+  heroImageUrl?: string | null
+  heroAlt?: string | null
+  heroTitle?: string | null
+  heroSubtitle?: string | null
+  heroDescription?: string | null
+  heroCtaPrimary?: string | null
+  heroCtaPrimaryHref?: string | null
+  heroCtaSecondary?: string | null
+  heroCtaSecondaryHref?: string | null
+}
+
 const sideLinks = [
   { icon: Map, label: "Mapa", href: "/mapa" },
   { icon: Navigation, label: "¿Cómo llegar?", href: "/informacion-util#transporte" },
@@ -7,13 +19,39 @@ const sideLinks = [
   { icon: BookOpen, label: "Guía turística", href: "/guias-turisticas" },
 ]
 
-export function HeroSection() {
+const FALLBACK = {
+  image: "/images/hero-eldorado.png",
+  alt: "Vista aérea de Eldorado, Misiones, al atardecer",
+  title: "Eldorado,",
+  subtitle: "siempre cerca tuyo",
+  description:
+    "Descubrí la magia de la selva misionera, sus paisajes únicos, su gente y experiencias que te van a sorprender.",
+  ctaPrimary: { label: "Descubrí Eldorado", href: "/que-hacer" },
+  ctaSecondary: { label: "Ver video", href: "/guias-turisticas" },
+}
+
+export function HeroSection({ config }: { config?: HomeConfigInput | null }) {
+  const image = config?.heroImageUrl?.trim() || FALLBACK.image
+  const alt = config?.heroAlt?.trim() || FALLBACK.alt
+  const title = config?.heroTitle?.trim() || FALLBACK.title
+  const subtitle = config?.heroSubtitle?.trim() || FALLBACK.subtitle
+  const description =
+    config?.heroDescription?.trim() || FALLBACK.description
+  const ctaPrimary = {
+    label: config?.heroCtaPrimary?.trim() || FALLBACK.ctaPrimary.label,
+    href: config?.heroCtaPrimaryHref?.trim() || FALLBACK.ctaPrimary.href,
+  }
+  const ctaSecondary = {
+    label: config?.heroCtaSecondary?.trim() || FALLBACK.ctaSecondary.label,
+    href: config?.heroCtaSecondaryHref?.trim() || FALLBACK.ctaSecondary.href,
+  }
+
   return (
     <section className="relative">
       <div className="relative min-h-[600px] overflow-hidden lg:min-h-[640px]">
         <img
-          src="/images/hero-waterfall.png"
-          alt="Cascada en la selva misionera de Eldorado"
+          src={image}
+          alt={alt}
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-brand-green-dark/85 via-brand-green-dark/40 to-transparent" />
@@ -24,26 +62,25 @@ export function HeroSection() {
               Naturaleza. Aventura. Descanso.
             </p>
             <h1 className="font-heading text-5xl font-bold leading-[1.05] text-balance sm:text-6xl">
-              Eldorado,
-              <span className="mt-2 block font-light">siempre cerca tuyo</span>
+              {title}
+              <span className="mt-2 block font-light">{subtitle}</span>
             </h1>
             <p className="mt-6 max-w-md text-base leading-relaxed text-white/90">
-              Descubrí la magia de la selva misionera, sus paisajes únicos, su
-              gente y experiencias que te van a sorprender.
+              {description}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <a
-                href="/que-hacer"
+                href={ctaPrimary.href}
                 className="inline-flex items-center gap-2 rounded-full bg-brand-yellow px-6 py-3.5 text-sm font-semibold text-brand-green-dark shadow-lg transition-transform hover:scale-[1.03]"
               >
                 <Compass className="h-4 w-4" />
-                Descubrí Eldorado
+                {ctaPrimary.label}
               </a>
               <a
-                href="/guias-turisticas"
+                href={ctaSecondary.href}
                 className="inline-flex items-center gap-3 rounded-full bg-white/15 px-5 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/25"
               >
-                Ver video
+                {ctaSecondary.label}
                 <span className="flex h-7 w-7 items-center justify-center rounded-full bg-brand-yellow text-brand-green-dark">
                   <Play className="h-3.5 w-3.5 fill-current" />
                 </span>

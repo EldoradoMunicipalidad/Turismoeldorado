@@ -381,3 +381,37 @@ export function generateId(title: string): string {
     Date.now().toString(36).slice(-4)
   )
 }
+
+// ============================================================
+//  HomeConfig (single-row, id="default")
+// ============================================================
+// Garantiza que la fila exista y la devuelve. Sin defaults
+// literales: si falta un campo, queda null y el consumidor
+// (HeroSection) usa su propio fallback.
+export async function getHomeConfig() {
+  const existing = await prisma.homeConfig.findUnique({
+    where: { id: "default" },
+  })
+  if (existing) return existing
+  return prisma.homeConfig.create({ data: { id: "default" } })
+}
+
+export async function updateHomeConfig(
+  data: Partial<{
+    heroImageUrl: string | null
+    heroAlt: string | null
+    heroTitle: string | null
+    heroSubtitle: string | null
+    heroDescription: string | null
+    heroCtaPrimary: string | null
+    heroCtaPrimaryHref: string | null
+    heroCtaSecondary: string | null
+    heroCtaSecondaryHref: string | null
+  }>,
+) {
+  return prisma.homeConfig.upsert({
+    where: { id: "default" },
+    create: { id: "default", ...data },
+    update: data,
+  })
+}

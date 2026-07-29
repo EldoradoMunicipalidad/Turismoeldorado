@@ -81,17 +81,17 @@ export const metadata: Metadata = {
   // OpenGraph (Facebook, LinkedIn, WhatsApp)
   openGraph: {
     type: "website",
-    locale: "es_AR",
+    locale: "es-AR",
     url: SITE_URL,
     siteName: SITE_NAME,
     title: `${SITE_NAME} | Naturaleza, aventura y descanso`,
     description: SITE_DESCRIPTION,
     images: [
       {
-        url: "/images/hero-waterfall.png",
+        url: "/images/hero-eldorado.png",
         width: 1200,
         height: 630,
-        alt: "Cascada en la selva misionera de Eldorado",
+        alt: "Vista aérea de Eldorado, Misiones, al atardecer",
         type: "image/png",
       },
     ],

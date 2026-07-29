@@ -38,6 +38,27 @@ model Admin {
 }
 
 // ============================================================
+//  CONFIGURACIÓN DEL HOME (single-row, id="default")
+// ============================================================
+// Editable desde /admin/home. Héroe de la portada editable
+// sin tocar código. La URL de la imagen puede ser:
+//   - "/images/..." → archivo en /public
+//   - "/api/images/<id>" → binario en ImageAsset (DB)
+model HomeConfig {
+  id                   String   @id @default("default")
+  heroImageUrl         String?
+  heroAlt              String?
+  heroTitle            String?
+  heroSubtitle         String?
+  heroDescription      String?
+  heroCtaPrimary       String?
+  heroCtaPrimaryHref   String?
+  heroCtaSecondary     String?
+  heroCtaSecondaryHref String?
+  updatedAt            DateTime @updatedAt
+}
+
+// ============================================================
 //  1. EXPERIENCIAS ("Qué hacer")
 // ============================================================
 model Experience {

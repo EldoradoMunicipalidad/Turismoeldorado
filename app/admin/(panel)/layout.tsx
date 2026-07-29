@@ -10,6 +10,7 @@ import {
   ArrowLeft,
   ShieldCheck,
   LogOut,
+  Home,
 } from "lucide-react"
 import { getCounts } from "@/lib/db"
 import { LogoutButton } from "./logout-button"
@@ -20,6 +21,11 @@ export const dynamic = "force-dynamic"
 
 const NAV = [
   { href: "/admin", label: "Resumen", Icon: LayoutDashboard, exact: true },
+  {
+    href: "/admin/home",
+    label: "Home",
+    Icon: Home,
+  },
   {
     href: "/admin/experiences",
     label: "Qué hacer",
