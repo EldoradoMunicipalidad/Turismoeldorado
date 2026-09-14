@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import {
   Sun,
   CloudSun,
@@ -12,6 +12,7 @@ import {
   Check,
 } from "lucide-react"
 import { Logo } from "@/components/logo"
+import Link from "next/link"
 import { cn } from "@/lib/utils"
 
 const navItems = [
@@ -91,6 +92,10 @@ export function SiteHeader() {
   const [query, setQuery] = useState("")
   const searchInputRef = useRef<HTMLInputElement>(null)
   const langRef = useRef<HTMLDivElement>(null)
+  const closeSearch = useCallback(() => {
+    setSearchOpen(false)
+    setQuery("")
+  }, [])
 
   // Cerrar dropdown de idioma al hacer click fuera
   useEffect(() => {
@@ -105,21 +110,17 @@ export function SiteHeader() {
 
   // Focus al input cuando se abre la búsqueda
   useEffect(() => {
-    if (searchOpen) {
-      searchInputRef.current?.focus()
-    } else {
-      setQuery("")
-    }
+    if (searchOpen) searchInputRef.current?.focus()
   }, [searchOpen])
 
   // Cerrar búsqueda con Escape
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape" && searchOpen) setSearchOpen(false)
+      if (e.key === "Escape" && searchOpen) closeSearch()
     }
     document.addEventListener("keydown", onKey)
     return () => document.removeEventListener("keydown", onKey)
-  }, [searchOpen])
+  }, [closeSearch, searchOpen])
 
   const trimmed = query.trim().toLowerCase()
   const results = trimmed
@@ -212,9 +213,9 @@ export function SiteHeader() {
       {/* Main nav */}
       <div className="bg-white shadow-sm">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-          <a href="/" aria-label="Inicio">
+          <Link href="/" aria-label="Inicio">
             <Logo src="/images/logo-header.png" className="h-[52px]" />
-          </a>
+          </Link>
 
           <nav className="hidden items-center gap-6 xl:flex">
             {navItems.map((item, i) => (
@@ -300,7 +301,7 @@ export function SiteHeader() {
           aria-modal="true"
           aria-label="Buscar en Eldorado"
           className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 px-4 pt-16 backdrop-blur-sm sm:pt-24"
-          onClick={() => setSearchOpen(false)}
+          onClick={closeSearch}
         >
           <div
             className="w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-2xl"
@@ -317,7 +318,7 @@ export function SiteHeader() {
                 className="h-14 flex-1 bg-transparent text-base text-foreground outline-none placeholder:text-muted-foreground"
               />
               <button
-                onClick={() => setSearchOpen(false)}
+                onClick={closeSearch}
                 aria-label="Cerrar búsqueda"
                 className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground"
               >
@@ -342,7 +343,7 @@ export function SiteHeader() {
                     <li key={item.href}>
                       <a
                         href={item.href}
-                        onClick={() => setSearchOpen(false)}
+                        onClick={closeSearch}
                         className="flex items-start gap-3 px-4 py-3 transition-colors hover:bg-muted"
                       >
                         <span className="mt-0.5 inline-flex shrink-0 items-center rounded-full bg-brand-green/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-brand-green">

@@ -1,6 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server"
 import { revalidatePath } from "next/cache"
-import { getHomeConfig, updateHomeConfig } from "@/lib/db"
+import { getHomeConfig, getHomePageContent, updateHomeConfig, updateHomePageContent } from "@/lib/db"
+import { isHomeContentDocument } from "@/lib/home-content"
+import initialHomeContent from "../../../../prisma/home-content-seed.json"
 
 export const dynamic = "force-dynamic"
 
@@ -59,6 +61,24 @@ export async function POST(req: NextRequest) {
   }
 
   const config = await updateHomeConfig(data)
+  const current = await getHomePageContent()
+  const base = isHomeContentDocument(current?.content)
+    ? current.content
+    : initialHomeContent
+  await updateHomePageContent({
+    ...base,
+    hero: {
+      imageUrl: config.heroImageUrl ?? "",
+      alt: config.heroAlt ?? "",
+      title: config.heroTitle ?? "",
+      subtitle: config.heroSubtitle ?? "",
+      description: config.heroDescription ?? "",
+      ctaPrimary: config.heroCtaPrimary ?? "",
+      ctaPrimaryHref: config.heroCtaPrimaryHref ?? "",
+      ctaSecondary: config.heroCtaSecondary ?? "",
+      ctaSecondaryHref: config.heroCtaSecondaryHref ?? "",
+    },
+  })
   revalidatePath("/")
   return NextResponse.json({ config })
 }

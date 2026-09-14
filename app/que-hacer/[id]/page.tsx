@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation"
+import Link from "next/link"
 import { ArrowLeft, Clock, TicketCheck, Users, MapPin } from "lucide-react"
 import type { Metadata } from "next"
 import { SiteHeader } from "@/components/site-header"
@@ -77,13 +78,13 @@ export default async function QueHacerDetailPage({
       {/* Body */}
       <section className="mx-auto -mt-20 max-w-5xl px-4 pb-12 sm:px-6 lg:-mt-32">
         <div className="rounded-2xl bg-card p-6 shadow-xl sm:p-8">
-          <a
+          <Link
             href="/que-hacer"
             className="mb-4 inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground transition-colors hover:text-brand-green"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             Volver a Qué hacer
-          </a>
+          </Link>
 
           <div className="flex flex-wrap items-center gap-2">
             <span

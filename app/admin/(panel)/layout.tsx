@@ -11,15 +11,22 @@ import {
   ShieldCheck,
   LogOut,
   Home,
+  type LucideIcon,
 } from "lucide-react"
-import { getCounts } from "@/lib/db"
+import { getCounts, type Collection } from "@/lib/db"
 import { LogoutButton } from "./logout-button"
 
 // El admin lee de la DB (counts en el sidebar), así que todas las sub-páginas
 // deben renderizarse on-demand, no en build-time.
 export const dynamic = "force-dynamic"
 
-const NAV = [
+const NAV: {
+  href: string
+  label: string
+  Icon: LucideIcon
+  exact?: boolean
+  collection?: Collection
+}[] = [
   { href: "/admin", label: "Resumen", Icon: LayoutDashboard, exact: true },
   {
     href: "/admin/home",
@@ -30,31 +37,31 @@ const NAV = [
     href: "/admin/experiences",
     label: "Qué hacer",
     Icon: Compass,
-    collection: "experiences" as const,
+    collection: "experiences",
   },
   {
     href: "/admin/events",
     label: "Eventos",
     Icon: CalendarDays,
-    collection: "events" as const,
+    collection: "events",
   },
   {
     href: "/admin/accommodations",
     label: "Alojamientos",
     Icon: Hotel,
-    collection: "accommodations" as const,
+    collection: "accommodations",
   },
   {
     href: "/admin/restaurants",
     label: "Gastronomía",
     Icon: Utensils,
-    collection: "restaurants" as const,
+    collection: "restaurants",
   },
   {
     href: "/admin/sportActivities",
     label: "Deportes",
     Icon: Trophy,
-    collection: "sportActivities" as const,
+    collection: "sportActivities",
   },
   { href: "/mapa", label: "Mapa público", Icon: MapIcon },
 ] as const
@@ -86,9 +93,7 @@ export default async function AdminPanelLayout({
 
         <nav className="flex-1 space-y-0.5 px-3 py-4">
           {NAV.map(({ href, label, Icon, collection }) => {
-            const count = collection
-              ? counts[collection as keyof typeof counts]
-              : null
+            const count = collection ? counts[collection] : null
             return (
               <Link
                 key={href}

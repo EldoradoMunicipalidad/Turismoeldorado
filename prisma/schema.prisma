@@ -58,6 +58,15 @@ model HomeConfig {
   updatedAt            DateTime @updatedAt
 }
 
+// Configuración editorial para el contenido público del home.
+// Se mantiene separada de HomeConfig para que la migración sea aditiva y
+// no requiera modificar ni reescribir la fila existente del hero.
+model HomePageContent {
+  id        String   @id @default("default")
+  content   Json
+  updatedAt DateTime @updatedAt
+}
+
 // ============================================================
 //  1. EXPERIENCIAS ("Qué hacer")
 // ============================================================

@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation"
+import Link from "next/link"
 import { formatPrice } from "@/components/deportes-eventos-helpers"
 import { ArrowLeft, CalendarDays, Clock, MapPin, Tag, Sparkles } from "lucide-react"
 import type { Metadata } from "next"
@@ -66,13 +67,13 @@ export default async function EventoDetailPage({
           <div className="absolute inset-0 bg-gradient-to-t from-brand-green-dark/90 via-brand-green-dark/50 to-transparent" />
           <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-10">
             <div className="mx-auto w-full max-w-5xl">
-              <a
+              <Link
                 href="/eventos"
                 className="mb-4 inline-flex items-center gap-1.5 text-xs font-medium text-white/80 transition-colors hover:text-white"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
                 Volver a Eventos
-              </a>
+              </Link>
               <div className="flex flex-wrap items-center gap-2">
                 <span
                   className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${

@@ -1,26 +1,27 @@
 #!/bin/bash
 # =============================================================
 #  Entrypoint del contenedor
-#  1) Aplica el schema a Neon (SQL idempotente, sin CLI Prisma)
+#  1) Crea únicamente la nueva tabla del CMS en Neon
 #  2) Arranca el servidor Next.js standalone
 # =============================================================
 set -e
 
 echo "▶ [entrypoint] shell=$(basename "$0") bash=$(bash --version | head -1 | tr -d '\r')"
 
-# Tomar los primeros 40 chars de la URL para no loggear la contraseña
-DB_PREVIEW="${DATABASE_URL:0:40}"
-echo "▶ [entrypoint] DATABASE_URL=${DB_PREVIEW}..."
-
 if [ -z "$DATABASE_URL" ]; then
   echo "✗ [entrypoint] Falta DATABASE_URL. Abortando."
   exit 1
 fi
+echo "✓ [entrypoint] DATABASE_URL configurada."
 
-# 1) Aplicar schema con SQL puro.
-#    `CREATE TABLE IF NOT EXISTS` no existe en Postgres, pero todas las
-#    sentencias están envueltas en un try/catch tolerante a tablas
-#    pre-existentes (error 42P07).
+if [ -z "$AUTH_SECRET" ] || [ "${#AUTH_SECRET}" -lt 32 ]; then
+  echo "✗ [entrypoint] AUTH_SECRET debe estar configurada y tener al menos 32 caracteres. Abortando."
+  exit 1
+fi
+echo "✓ [entrypoint] AUTH_SECRET configurada."
+
+# 1) Aplicar solo la creación de HomePageContent con SQL puro. Si esa tabla
+#    ya existe, el bootstrap continúa sin alterar su estructura.
 if [ -f /app/prisma/init.sql ]; then
   echo "▶ [entrypoint] Aplicando schema a la base de datos..."
   node /app/scripts/apply-schema.mjs || {

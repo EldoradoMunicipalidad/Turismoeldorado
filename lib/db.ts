@@ -1,5 +1,10 @@
 import { PrismaClient } from "@prisma/client"
 import { PrismaNeon } from "@prisma/adapter-neon"
+import type { AccommodationType } from "@/components/donde-alojarse-data"
+import type { FoodType, PriceRange } from "@/components/donde-comer-data"
+import type { Experience } from "@/components/que-hacer-data"
+import type { EventItem } from "@/components/eventos-data"
+import type { SportActivity } from "@/components/deportes-eventos-data"
 
 // Singleton — evita reinicializar el cliente en dev (HMR).
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient }
@@ -25,38 +30,14 @@ if (process.env.NODE_ENV !== "production") {
 // ============================================================
 //  Tipos compartidos con el resto del código
 // ============================================================
-export type Experience = {
-  id: string
-  title: string
-  description: string
-  image: string
-  category: string
-  duration: string
-  requiresReservation: boolean
-  kidFriendly: boolean
-  hasGuide: boolean
-}
-
-export type EventItem = {
-  id: string
-  title: string
-  description: string
-  image: string
-  type: string
-  date: string
-  time: string
-  location: string
-  isFree: boolean
-  price?: number
-  highlight?: boolean
-}
+export type { Experience, EventItem, SportActivity }
 
 export type Accommodation = {
   id: string
   name: string
   description: string
   image: string
-  modalities: string[]
+  modalities: AccommodationType[]
   services: { breakfast: boolean; pool: boolean; parking: boolean }
   fullServices: string[]
   capacity: { couples: boolean; families: boolean; sportsTeams: boolean }
@@ -72,8 +53,8 @@ export type Restaurant = {
   name: string
   description: string
   image: string
-  foodTypes: string[]
-  priceRange: string
+  foodTypes: FoodType[]
+  priceRange: PriceRange
   services: {
     delivery: boolean
     parking: boolean
@@ -87,19 +68,6 @@ export type Restaurant = {
   whatsapp?: string
   instagram?: string
   signature?: string
-}
-
-export type SportActivity = {
-  id: string
-  title: string
-  description: string
-  image: string
-  disciplines: string[]
-  category: string
-  level: string
-  schedule: string
-  location: string
-  contact?: string
 }
 
 export type Collection =
@@ -120,9 +88,19 @@ export const COLLECTIONS: Collection[] = [
 // ============================================================
 //  Lectura (la API pública que ya consumen las páginas)
 // ============================================================
-export async function readCollection<K extends Collection>(
-  name: K,
-): Promise<any[]> {
+export async function readCollection(name: "experiences"): Promise<Experience[]>
+export async function readCollection(name: "events"): Promise<EventItem[]>
+export async function readCollection(
+  name: "accommodations",
+): Promise<Accommodation[]>
+export async function readCollection(name: "restaurants"): Promise<Restaurant[]>
+export async function readCollection(
+  name: "sportActivities",
+): Promise<SportActivity[]>
+export async function readCollection(
+  name: Collection,
+): Promise<(Experience | EventItem | Accommodation | Restaurant | SportActivity)[]>
+export async function readCollection(name: Collection): Promise<any[]> {
   switch (name) {
     case "experiences":
       return prisma.experience.findMany({ orderBy: { title: "asc" } })
@@ -135,6 +113,7 @@ export async function readCollection<K extends Collection>(
     case "sportActivities":
       return prisma.sportActivity.findMany({ orderBy: { title: "asc" } })
   }
+  throw new Error(`Colección no válida: ${name}`)
 }
 
 export async function readAll() {
@@ -211,6 +190,7 @@ export async function upsertItem<K extends Collection>(
         update: data,
       })
   }
+  throw new Error(`Colección no válida: ${collection}`)
 }
 
 export async function deleteItem<K extends Collection>(
@@ -229,6 +209,7 @@ export async function deleteItem<K extends Collection>(
     case "sportActivities":
       return !!(await prisma.sportActivity.delete({ where: { id } }).catch(() => null))
   }
+  throw new Error(`Colección no válida: ${collection}`)
 }
 
 // ============================================================
@@ -245,7 +226,7 @@ export async function saveImage(opts: {
     data: {
       filename: opts.filename,
       mime: opts.mime,
-      bytes: opts.bytes,
+      bytes: new Uint8Array(opts.bytes),
       size: opts.bytes.length,
       width: opts.width,
       height: opts.height,
@@ -413,5 +394,17 @@ export async function updateHomeConfig(
     where: { id: "default" },
     create: { id: "default", ...data },
     update: data,
+  })
+}
+
+export async function getHomePageContent() {
+  return prisma.homePageContent.findUnique({ where: { id: "default" } })
+}
+
+export async function updateHomePageContent(content: unknown) {
+  return prisma.homePageContent.upsert({
+    where: { id: "default" },
+    create: { id: "default", content: content as any },
+    update: { content: content as any },
   })
 }

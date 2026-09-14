@@ -1,0 +1,182 @@
+{
+  "version": 1,
+  "sectionOrder": ["features", "imperdibles", "events", "planifica", "vivi"],
+  "metadata": {
+    "siteName": "Turismo Eldorado Misiones",
+    "title": "Eldorado Misiones | Naturaleza, aventura y descanso",
+    "description": "Naturaleza, aventura y descanso en Eldorado, Misiones. Descubrí los Saltos del Moconá, la Reserva Delicia, kayak en el Paraná, cabañas, gastronomía regional y eventos durante todo el año.",
+    "openGraphTitle": "Eldorado Misiones | Naturaleza que enamora",
+    "openGraphDescription": "Descubrí la magia de la selva misionera: Saltos del Moconá, Reserva Delicia, kayak en el Paraná, cabañas, gastronomía regional y eventos todo el año.",
+    "keywords": [
+      "turismo Eldorado",
+      "Eldorado Misiones",
+      "selva misionera",
+      "Saltos del Moconá",
+      "Reserva Delicia",
+      "turismo rural Misiones",
+      "costas del Paraná",
+      "camping Misiones",
+      "cabañas Eldorado",
+      "festival de la selva",
+      "turismo Argentina",
+      "que hacer en Eldorado",
+      "donde alojarse Eldorado",
+      "donde comer Eldorado"
+    ]
+  },
+  "hero": {
+    "imageUrl": "/images/hero-waterfall.png",
+    "alt": "Saltos de agua rodeados por la selva misionera",
+    "title": "Eldorado,",
+    "subtitle": "siempre cerca tuyo",
+    "description": "Descubrí la magia de la selva misionera, sus paisajes únicos, su gente y experiencias que te van a sorprender.",
+    "ctaPrimary": "Descubrí Eldorado",
+    "ctaPrimaryHref": "/que-hacer",
+    "ctaSecondary": "Ver video",
+    "ctaSecondaryHref": "/guias-turisticas"
+  },
+  "header": {
+    "logoUrl": "/images/logo-header.png",
+    "logoAlt": "Turismo Eldorado",
+    "weatherTemperature": "23°C",
+    "weatherCondition": "Soleado",
+    "siteMapLabel": "Mapa del sitio",
+    "siteMapHref": "/mapa",
+    "faqLabel": "Preguntas frecuentes",
+    "faqHref": "/informacion-util",
+    "languageLabel": "Cambiar idioma",
+    "languages": [
+      { "code": "ES", "label": "Español" },
+      { "code": "PT", "label": "Português" },
+      { "code": "EN", "label": "English" }
+    ],
+    "navItems": [
+      { "label": "Qué hacer", "href": "/que-hacer" },
+      { "label": "Dónde alojarse", "href": "/donde-alojarse" },
+      { "label": "Dónde comer", "href": "/donde-comer" },
+      { "label": "Deportes y eventos", "href": "/deportes-eventos" },
+      { "label": "Información útil", "href": "/informacion-util" }
+    ],
+    "ctaLabel": "Guía Turística",
+    "ctaHref": "/guias-turisticas",
+    "openMenuLabel": "Abrir menú",
+    "closeMenuLabel": "Cerrar menú",
+    "quickLinks": [
+      { "icon": "map", "label": "Mapa", "href": "/mapa" },
+      { "icon": "navigation", "label": "¿Cómo llegar?", "href": "/informacion-util#transporte" },
+      { "icon": "pin", "label": "Actividades", "href": "/que-hacer" },
+      { "icon": "book", "label": "Guía turística", "href": "/guias-turisticas" }
+    ],
+    "search": {
+      "openLabel": "Abrir búsqueda",
+      "closeLabel": "Cerrar búsqueda",
+      "dialogLabel": "Buscar en Eldorado",
+      "placeholder": "Buscar experiencias, eventos, alojamientos, restaurantes...",
+      "startPrompt": "Empezá a escribir para buscar en el directorio de Eldorado.",
+      "noResultsPrefix": "No encontramos resultados para",
+      "resultCountSingular": "resultado",
+      "resultCountPlural": "resultados",
+      "resultCategoryExperiences": "Qué hacer",
+      "resultCategoryEvents": "Eventos",
+      "resultCategoryAccommodations": "Alojamiento",
+      "resultCategoryRestaurants": "Gastronomía",
+      "resultCategorySports": "Deportes",
+      "footerDirectory": "Directorio completo de Eldorado",
+      "escapeKeyLabel": "Esc",
+      "escapeHint": "para cerrar"
+    }
+  },
+  "heroEyebrow": "Naturaleza. Aventura. Descanso.",
+  "features": {
+    "enabled": true,
+    "items": [
+      { "icon": "leaf", "color": "bg-brand-green", "title": "Naturaleza", "description": "Selva, ríos y saltos que enamoran.", "href": "/que-hacer?cat=naturaleza" },
+      { "icon": "camera", "color": "bg-brand-teal", "title": "Aventura", "description": "Actividades para vivir emociones únicas.", "href": "/que-hacer?cat=aventura" },
+      { "icon": "mountain", "color": "bg-brand-yellow", "title": "Turismo rural", "description": "Vivencias auténticas en el campo misionero.", "href": "/que-hacer?cat=turismo-rural" },
+      { "icon": "trophy", "color": "bg-brand-green", "title": "Deportes", "description": "Todo el deporte y la adrenalina en un solo lugar.", "href": "/deportes-eventos" },
+      { "icon": "users", "color": "bg-brand-teal", "title": "Cultura", "description": "Tradición, historia y la calidez de nuestra gente.", "href": "/que-hacer?cat=cultura" }
+    ]
+  },
+  "imperdibles": {
+    "enabled": true,
+    "title": "Imperdibles",
+    "subtitle": "Lugares que tenés que conocer",
+    "linkLabel": "Ver todos los atractivos",
+    "linkHref": "/que-hacer",
+    "items": [
+      { "source": "experience", "sourceId": "saltos-mocona", "title": "Saltos del Moconá", "description": "Un espectáculo natural único en el mundo.", "image": "/images/saltos-mocona.png", "href": "/que-hacer/saltos-mocona" },
+      { "source": "experience", "sourceId": "reserva-delicia", "title": "Reserva Natural Delicia", "description": "Conservación y biodiversidad en un entorno de selva paranaense.", "image": "/images/reserva-bird.png", "href": "/que-hacer/reserva-delicia" },
+      { "source": "experience", "sourceId": "museo-eldorado", "title": "Museo Cooperativo Eldorado", "description": "Conocé la historia del trabajo y el esfuerzo de nuestra comunidad.", "image": "/images/museo.png", "href": "/que-hacer/museo-eldorado" },
+      { "source": "experience", "sourceId": "costanera-atardecer", "title": "Costanera Eldorado", "description": "Un paseo ideal para disfrutar del río, la gastronomía y los atardeceres.", "image": "/images/costanera.png", "href": "/que-hacer/costanera-atardecer" },
+      { "source": "experience", "sourceId": "cuevas-santoangel", "title": "Cuevas de Santo Ángel", "description": "Aventura y arqueología en un entorno natural fascinante.", "image": "/images/cuevas.png", "href": "/que-hacer/cuevas-santoangel" }
+    ]
+  },
+  "events": {
+    "enabled": true,
+    "title": "Calendario de eventos",
+    "description": "No te pierdas los eventos, festivales y actividades que se realizan durante todo el año en Eldorado.",
+    "buttonLabel": "Ver calendario",
+    "buttonHref": "/eventos",
+    "image": "/images/eventos-concert.png",
+    "imageAlt": "Festival de música en Eldorado",
+    "eventListTitle": "Próximos eventos",
+    "eventLimit": 3
+  },
+  "planifica": {
+    "enabled": true,
+    "title": "Planificá tu viaje",
+    "items": [
+      { "icon": "pin", "title": "¿Cómo llegar?", "description": "Rutas, accesos y medios de transporte para llegar a Eldorado.", "ctaLabel": "Ver más", "href": "/informacion-util#transporte" },
+      { "icon": "map", "title": "¿Dónde alojarse?", "description": "Opciones para todos los gustos y presupuestos.", "ctaLabel": "Ver más", "href": "/donde-alojarse" },
+      { "icon": "utensils", "title": "¿Dónde comer?", "description": "Gastronomía local para disfrutar sabores únicos.", "ctaLabel": "Ver más", "href": "/donde-comer" },
+      { "icon": "book", "title": "Guía turística", "description": "Descargá nuestra guía con mapas, consejos y más información.", "ctaLabel": "Descargar", "href": "/guias-turisticas", "download": true },
+      { "icon": "info", "title": "Información útil", "description": "Recomendaciones, teléfonos útiles, salud, seguridad y más.", "ctaLabel": "Ver más", "href": "/informacion-util" }
+    ]
+  },
+  "vivi": {
+    "enabled": true,
+    "title": "Viví Eldorado",
+    "subtitle": "Experiencias para todos los gustos",
+    "linkLabel": "Ver todas las actividades",
+    "linkHref": "/que-hacer",
+    "items": [
+      { "source": "experience", "sourceId": "kayak-parana", "icon": "waves", "title": "Kayak y canotaje", "image": "/images/act-kayak.png", "href": "/que-hacer/kayak-parana" },
+      { "source": "experience", "sourceId": "trekking-selva", "icon": "footprints", "title": "Senderismo y trekking", "image": "/images/act-trekking.png", "href": "/que-hacer/trekking-selva" },
+      { "source": "experience", "sourceId": "avistaje-aves", "icon": "pin", "title": "Avistaje de aves", "image": "/images/act-aves.png", "href": "/que-hacer/avistaje-aves" },
+      { "source": "experience", "sourceId": "ciclismo-rural", "icon": "bike", "title": "Ciclismo", "image": "/images/act-ciclismo.png", "href": "/que-hacer/ciclismo-rural" },
+      { "source": "experience", "sourceId": "visita-chacra", "icon": "home", "title": "Turismo rural", "image": "/images/act-rural.png", "href": "/que-hacer/visita-chacra" }
+    ]
+  },
+  "footer": {
+    "logoUrl": "/images/logo-turismo.png",
+    "logoAlt": "Turismo Eldorado",
+    "tagline": "Naturaleza que enamora",
+    "linksTitle": "Enlaces útiles",
+    "links": [
+      { "label": "Mapa del sitio", "href": "/mapa" },
+      { "label": "Guía turística", "href": "/guias-turisticas" },
+      { "label": "Términos y condiciones", "href": "/guias-turisticas#terminos" },
+      { "label": "Política de privacidad", "href": "/guias-turisticas#privacidad" }
+    ],
+    "contactTitle": "Contacto",
+    "phoneLabel": "+54 9 3751 123456",
+    "phoneHref": "tel:+543751123456",
+    "emailLabel": "turismo@eldorado.gob.ar",
+    "emailHref": "mailto:turismo@eldorado.gob.ar",
+    "locationLabel": "Eldorado, Misiones, Argentina",
+    "locationHref": "/informacion-util#transporte",
+    "socials": [
+      { "label": "Facebook", "href": "https://www.facebook.com/turismoeldorado", "icon": "facebook" },
+      { "label": "Instagram", "href": "https://www.instagram.com/eldoradomisiones", "icon": "instagram" },
+      { "label": "YouTube", "href": "https://www.youtube.com/@eldoradomisiones", "icon": "youtube" }
+    ],
+    "newsletterTitle": "Suscribite a nuestro newsletter",
+    "newsletterDescription": "Recibí novedades y promociones para tu próxima visita.",
+    "newsletterEmailPlaceholder": "Tu correo electrónico",
+    "newsletterSubmitLabel": "Suscribirse",
+    "newsletterAction": "mailto:turismo@eldorado.gob.ar",
+    "copyright": "© 2024 Turismo Eldorado - Todos los derechos reservados.",
+    "creditPrefix": "Desarrollado con",
+    "creditSuffix": "para Eldorado"
+  }
+}

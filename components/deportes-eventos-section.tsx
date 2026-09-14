@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Link from "next/link"
 import {
   Trophy,
   CalendarDays,
@@ -28,6 +29,7 @@ import {
   type SportCategory,
   type SportActivity,
 } from "@/components/deportes-eventos-data"
+import type { EventItem } from "@/components/eventos-data"
 import { formatDate, formatPrice } from "@/components/deportes-eventos-helpers"
 
 const disciplineIcons: Record<SportDiscipline, typeof Trophy> = {
@@ -144,19 +146,19 @@ function SportCard({ activity }: { activity: SportActivity }) {
             {activity.location}
           </p>
         </div>
-        <a
+        <Link
           href="/deportes-eventos"
           className="mt-auto inline-flex items-center justify-center gap-1.5 rounded-xl bg-brand-green px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-green-dark"
         >
           Unirme
           <ArrowRight className="h-4 w-4" />
-        </a>
+        </Link>
       </div>
     </article>
   )
 }
 
-function UpcomingEventCard({ ev }: { ev: (typeof upcomingSportEvents)[number] }) {
+function UpcomingEventCard({ ev }: { ev: EventItem }) {
   const date = formatDate(ev.date)
   return (
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:flex-row">
@@ -221,7 +223,7 @@ export function DeportesEventosSection({
   upcomingSportEvents,
 }: {
   sportActivities: SportActivity[]
-  upcomingSportEvents: SportActivity[]
+  upcomingSportEvents: EventItem[]
 }) {
   const [activeCategory, setActiveCategory] = useState<string>("todas")
   const [activeLevel, setActiveLevel] = useState<string | null>(null)
@@ -391,13 +393,13 @@ export function DeportesEventosSection({
         )}
 
         <div className="mt-8 text-center">
-          <a
+          <Link
             href="/eventos"
             className="inline-flex items-center gap-2 text-sm font-semibold text-brand-green transition-colors hover:text-brand-green-dark"
           >
             Ver todos los eventos (culturales y deportivos)
             <ArrowRight className="h-4 w-4" />
-          </a>
+          </Link>
         </div>
       </div>
     </section>

@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation"
+import Link from "next/link"
 import { ArrowLeft, Trophy, Clock, MapPin, Calendar } from "lucide-react"
 import type { Metadata } from "next"
 import { SiteHeader } from "@/components/site-header"
@@ -79,13 +80,13 @@ export default async function DeporteDetailPage({
 
       <section className="mx-auto -mt-20 max-w-5xl px-4 pb-12 sm:px-6 lg:-mt-32">
         <div className="rounded-2xl bg-card p-6 shadow-xl sm:p-8">
-          <a
+          <Link
             href="/deportes-eventos"
             className="mb-4 inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground transition-colors hover:text-brand-green"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             Volver a Deportes y eventos
-          </a>
+          </Link>
 
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-green/10 px-3 py-1 text-xs font-semibold text-brand-green">
@@ -146,12 +147,12 @@ export default async function DeporteDetailPage({
               <Calendar className="h-4 w-4" />
               Unirme / Consultar
             </a>
-            <a
+            <Link
               href="/deportes-eventos"
               className="inline-flex items-center gap-2 rounded-full border-2 border-brand-green px-6 py-3 text-sm font-semibold text-brand-green transition-colors hover:bg-brand-green hover:text-white"
             >
               Ver otras actividades
-            </a>
+            </Link>
           </div>
         </div>
       </section>

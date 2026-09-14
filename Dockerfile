@@ -67,6 +67,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 # SQL de init y script apply-schema
 COPY --from=builder --chown=nextjs:nodejs /app/prisma/init.sql ./prisma/init.sql
+COPY --from=builder --chown=nextjs:nodejs /app/prisma/home-content-seed.json ./prisma/home-content-seed.json
 COPY --from=builder --chown=nextjs:nodejs /app/scripts/apply-schema.mjs ./scripts/apply-schema.mjs
 COPY --from=builder --chown=nextjs:nodejs /app/scripts/entrypoint.sh ./scripts/entrypoint.sh
 RUN chmod +x /app/scripts/entrypoint.sh

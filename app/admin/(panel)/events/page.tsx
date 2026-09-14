@@ -40,7 +40,7 @@ export default function AdminEventsPage() {
           </h1>
         </div>
         <p className="mt-1 text-sm text-muted-foreground">
-          Calendario cultural y deportivo. Los eventos con fecha pasada se ocultan automáticamente en la home.
+          Calendario cultural y deportivo. Los próximos eventos aparecen en la portada según la configuración del Home.
         </p>
       </div>
       <AdminTable collection="events" schema={schema} />

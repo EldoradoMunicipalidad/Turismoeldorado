@@ -1,11 +1,16 @@
 import { Home } from "lucide-react"
-import { HomeConfigForm } from "./home-config-form"
-import { getHomeConfig } from "@/lib/db"
+import { HomeContentForm } from "@/components/home-content-form"
+import { getHomePageContent } from "@/lib/db"
+import { isHomeContentDocument, type HomeContentDocument } from "@/lib/home-content"
+import initialHomeContent from "../../../../prisma/home-content-seed.json"
 
 export const dynamic = "force-dynamic"
 
 export default async function AdminHomePage() {
-  const config = await getHomeConfig()
+  const pageContent = await getHomePageContent()
+  const homeContent = isHomeContentDocument(pageContent?.content)
+    ? pageContent.content
+    : initialHomeContent as HomeContentDocument
   return (
     <div className="space-y-6">
       <div>
@@ -18,11 +23,10 @@ export default async function AdminHomePage() {
           </h1>
         </div>
         <p className="mt-1 text-sm text-muted-foreground">
-          Personalizá el hero de la portada: imagen, textos y botones. Los
-          cambios se reflejan al instante en la home pública.
+          Administrá los textos, imágenes, enlaces y contenidos de cada sección de la portada. Los cambios se reflejan en la home pública.
         </p>
       </div>
-      <HomeConfigForm initial={JSON.parse(JSON.stringify(config))} />
+      <HomeContentForm initial={JSON.parse(JSON.stringify(homeContent))} />
     </div>
   )
 }

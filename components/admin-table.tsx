@@ -64,7 +64,27 @@ export function AdminTable({ collection, schema, groups }: Props) {
   }
 
   useEffect(() => {
-    load()
+    let active = true
+    fetch(`/api/admin/${collection}`, { cache: "no-store" })
+      .then(async (res) => {
+        const data = await res.json()
+        if (!res.ok) throw new Error(data.error || "Error cargando")
+        return data.items
+      })
+      .then((nextItems) => {
+        if (!active) return
+        setItems(nextItems)
+        setError(null)
+      })
+      .catch((err: unknown) => {
+        if (active) setError(err instanceof Error ? err.message : "Error cargando")
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
+    return () => {
+      active = false
+    }
   }, [collection])
 
   useEffect(() => {
@@ -342,6 +362,11 @@ function ItemForm({
   onCancel: () => void
   onSave: () => void
 }) {
+  const [uploadToast, setUploadToast] = useState<{
+    kind: "ok" | "err"
+    msg: string
+  } | null>(null)
+
   function update(key: string, value: any) {
     onChange({ ...item, [key]: value })
   }
@@ -391,6 +416,16 @@ function ItemForm({
       </div>
 
       <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+        {uploadToast && (
+          <p
+            role="status"
+            className={`mb-4 text-xs font-semibold ${
+              uploadToast.kind === "ok" ? "text-emerald-700" : "text-red-700"
+            }`}
+          >
+            {uploadToast.msg}
+          </p>
+        )}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {schema.fields.map((f) => {
             if (f.kind === "text") {
@@ -497,12 +532,12 @@ function ItemForm({
                                 if (!res.ok)
                                   throw new Error(data.error || "Error subiendo")
                                 update(f.key, data.url)
-                                setToast({
+                                setUploadToast({
                                   kind: "ok",
                                   msg: "Imagen subida",
                                 })
                               } catch (err: any) {
-                                setToast({
+                                setUploadToast({
                                   kind: "err",
                                   msg: err.message,
                                 })

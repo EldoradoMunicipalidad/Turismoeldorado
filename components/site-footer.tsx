@@ -1,4 +1,5 @@
 import { Phone, Mail, MapPin, ArrowRight, Heart } from "lucide-react"
+import Link from "next/link"
 import { LeafMark } from "@/components/logo"
 
 function FacebookIcon({ className }: { className?: string }) {
@@ -63,9 +64,9 @@ export function SiteFooter() {
           <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
             {/* Brand */}
             <div>
-              <a href="/" aria-label="Inicio">
+              <Link href="/" aria-label="Inicio">
                 <LeafMark />
-              </a>
+              </Link>
               <p className="mt-4 text-sm text-white/70">
                 Naturaleza que enamora
               </p>

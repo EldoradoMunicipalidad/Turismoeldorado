@@ -4,7 +4,6 @@ import { SiteHeader } from "@/components/site-header"
 import { DeportesEventosSection } from "@/components/deportes-eventos-section"
 import { SiteFooter } from "@/components/site-footer"
 import { readCollection } from "@/lib/db"
-import type { SportActivity } from "@/components/deportes-eventos-data"
 import type { EventItem } from "@/components/eventos-data"
 
 export const metadata: Metadata = {
@@ -29,21 +28,9 @@ export default async function DeportesEventosPage() {
     readCollection("events"),
   ])
 
-  const upcomingSportEvents: SportActivity[] = (allEvents as EventItem[])
+  const upcomingSportEvents: EventItem[] = allEvents
     .filter((e) => e.type === "deportivo")
     .sort((a, b) => a.date.localeCompare(b.date))
-    .map((e) => ({
-      id: e.id,
-      title: e.title,
-      description: e.description,
-      image: e.image,
-      disciplines: [],
-      category: "equipo",
-      level: "todos",
-      schedule: `${e.time} hs`,
-      location: e.location,
-      contact: undefined,
-    }))
 
   return (
     <main className="min-h-screen bg-background">

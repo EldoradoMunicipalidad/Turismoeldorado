@@ -16,14 +16,16 @@ export function LeafMark({ className }: { className?: string }) {
 export function Logo({
   className,
   src,
+  alt,
 }: {
   className?: string
   src?: string
+  alt?: string
 }) {
   return (
     <Image
       src={src ?? "/images/logo-turismo.png"}
-      alt="Eldorado Misiones - Turismo"
+      alt={alt ?? "Eldorado Misiones - Turismo"}
       width={2014}
       height={749}
       className={cn("h-10 w-auto", className)}
