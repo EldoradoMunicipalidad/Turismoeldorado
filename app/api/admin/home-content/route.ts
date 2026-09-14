@@ -53,5 +53,6 @@ export async function POST(req: NextRequest) {
 
   const record = await updateHomePageContent(body)
   revalidatePath("/")
+  revalidatePath("/guias-turisticas")
   return NextResponse.json({ content: record.content })
 }

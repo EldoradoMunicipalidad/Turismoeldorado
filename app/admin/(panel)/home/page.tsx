@@ -8,9 +8,15 @@ export const dynamic = "force-dynamic"
 
 export default async function AdminHomePage() {
   const pageContent = await getHomePageContent()
-  const homeContent = isHomeContentDocument(pageContent?.content)
+  const storedContent = isHomeContentDocument(pageContent?.content)
     ? pageContent.content
     : initialHomeContent as HomeContentDocument
+  // Old production rows do not yet contain guide content. Add its defaults in
+  // memory so simply opening the admin never writes to or changes the database.
+  const homeContent: HomeContentDocument = {
+    ...storedContent,
+    guide: storedContent.guide ?? (initialHomeContent as HomeContentDocument).guide,
+  }
   return (
     <div className="space-y-6">
       <div>
@@ -23,7 +29,7 @@ export default async function AdminHomePage() {
           </h1>
         </div>
         <p className="mt-1 text-sm text-muted-foreground">
-          Administrá los textos, imágenes, enlaces y contenidos de cada sección de la portada. Los cambios se reflejan en la home pública.
+            Administrá el contenido de la portada y de la guía turística. Guardá los cambios para publicarlos.
         </p>
       </div>
       <HomeContentForm initial={JSON.parse(JSON.stringify(homeContent))} />

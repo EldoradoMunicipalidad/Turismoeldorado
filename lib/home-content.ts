@@ -10,6 +10,43 @@ export type HomeCollectionItem = {
   icon?: string
 }
 
+export type GuidePageContent = {
+  metadata: {
+    title: string
+    description: string
+    openGraphTitle: string
+    openGraphDescription: string
+  }
+  hero: {
+    imageUrl: string
+    alt: string
+    eyebrow: string
+    title: string
+    description: string
+    downloadLabel: string
+    downloadHref: string
+    exploreLabel: string
+    exploreHref: string
+  }
+  delivery: {
+    description: string
+    instructionPrefix: string
+    downloadLabel: string
+    instructionSuffix: string
+    emailLabel: string
+    emailHref: string
+    closing: string
+  }
+  sectionsTitle: string
+  sections: { icon: string; title: string; description: string }[]
+  legal: {
+    termsTitle: string
+    termsText: string
+    privacyTitle: string
+    privacyText: string
+  }
+}
+
 export type HomeContentDocument = {
   version: 1
   sectionOrder: ("features" | "imperdibles" | "events" | "planifica" | "vivi")[]
@@ -141,6 +178,8 @@ export type HomeContentDocument = {
     creditPrefix: string
     creditSuffix: string
   }
+  // Optional during the rollout so existing production JSON rows remain valid.
+  guide?: GuidePageContent
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -220,6 +259,22 @@ export function isHomeContentDocument(
   if (!["logoUrl", "logoAlt", "tagline", "linksTitle", "contactTitle", "phoneLabel", "phoneHref", "emailLabel", "emailHref", "locationLabel", "locationHref", "newsletterTitle", "newsletterDescription", "newsletterEmailPlaceholder", "newsletterSubmitLabel", "newsletterAction", "copyright", "creditPrefix", "creditSuffix"].every((key) => isText(footer[key]))) return false
   if (!Array.isArray(footer.links) || !footer.links.every(isLink)) return false
   if (!Array.isArray(footer.socials) || !footer.socials.every(isLink)) return false
+
+  if (value.guide !== undefined) {
+    const guide = value.guide
+    if (!isRecord(guide)) return false
+    const guideMetadata = guide.metadata
+    const guideHero = guide.hero
+    const guideDelivery = guide.delivery
+    const guideLegal = guide.legal
+    if (!isRecord(guideMetadata) || !isRecord(guideHero) || !isRecord(guideDelivery) || !isRecord(guideLegal)) return false
+    if (!["title", "description", "openGraphTitle", "openGraphDescription"].every((key) => isText(guideMetadata[key]))) return false
+    if (!["imageUrl", "alt", "eyebrow", "title", "description", "downloadLabel", "downloadHref", "exploreLabel", "exploreHref"].every((key) => isText(guideHero[key]))) return false
+    if (!["description", "instructionPrefix", "downloadLabel", "instructionSuffix", "emailLabel", "emailHref", "closing"].every((key) => isText(guideDelivery[key]))) return false
+    if (!isText(guide.sectionsTitle) || !Array.isArray(guide.sections)) return false
+    if (!guide.sections.every((item) => isRecord(item) && ["icon", "title", "description"].every((key) => isText(item[key])))) return false
+    if (!["termsTitle", "termsText", "privacyTitle", "privacyText"].every((key) => isText(guideLegal[key]))) return false
+  }
 
   return true
 }

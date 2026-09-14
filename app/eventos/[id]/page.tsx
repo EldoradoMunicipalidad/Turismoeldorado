@@ -56,55 +56,58 @@ export default async function EventoDetailPage({
     <main className="min-h-screen bg-background">
       <SiteHeader />
 
-      {/* Hero banner */}
-      <section className="relative">
-        <div className="relative h-[300px] sm:h-[380px] lg:h-[440px]">
+      <section className="mx-auto max-w-7xl px-4 pt-5 sm:px-6">
+        <div className="relative isolate flex h-[240px] items-center justify-center overflow-hidden rounded-2xl bg-brand-green-dark shadow-sm sm:h-[320px] lg:h-[380px]">
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 scale-110 bg-cover bg-center opacity-50 blur-2xl"
+            style={{ backgroundImage: `url("${ev.image}")` }}
+          />
+          <div className="absolute inset-0 bg-brand-green-dark/35" />
           <img
             src={ev.image}
             alt={ev.title}
-            className="absolute inset-0 h-full w-full object-cover"
+            className="relative z-10 h-full w-full object-contain p-2 sm:p-4"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-green-dark/90 via-brand-green-dark/50 to-transparent" />
-          <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-10">
-            <div className="mx-auto w-full max-w-5xl">
-              <Link
-                href="/eventos"
-                className="mb-4 inline-flex items-center gap-1.5 text-xs font-medium text-white/80 transition-colors hover:text-white"
-              >
-                <ArrowLeft className="h-3.5 w-3.5" />
-                Volver a Eventos
-              </Link>
-              <div className="flex flex-wrap items-center gap-2">
-                <span
-                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${
-                    ev.type === "cultural"
-                      ? "bg-rose-500/30 text-rose-50"
-                      : "bg-blue-500/30 text-blue-50"
-                  }`}
-                >
-                  {ev.type === "cultural" ? "Cultural" : "Deportivo"}
-                </span>
-                {ev.highlight && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-yellow px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-brand-green-dark">
-                    <Sparkles className="h-3 w-3" />
-                    Destacado
-                  </span>
-                )}
-                {isPast && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
-                    Evento pasado
-                  </span>
-                )}
-              </div>
-              <h1 className="mt-3 font-heading text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
-                {ev.title}
-              </h1>
-            </div>
-          </div>
         </div>
       </section>
 
-      <section className="mx-auto -mt-12 max-w-5xl px-4 pb-12 sm:px-6 lg:-mt-16">
+      <section className="mx-auto max-w-5xl px-4 pb-12 pt-7 sm:px-6 sm:pt-9">
+        <header className="mb-6">
+          <Link
+            href="/eventos"
+            className="mb-4 inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground transition-colors hover:text-brand-green"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" />
+            Volver a Eventos
+          </Link>
+          <div className="flex flex-wrap items-center gap-2">
+            <span
+              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${
+                ev.type === "cultural"
+                  ? "bg-rose-100 text-rose-800"
+                  : "bg-blue-100 text-blue-800"
+              }`}
+            >
+              {ev.type === "cultural" ? "Cultural" : "Deportivo"}
+            </span>
+            {ev.highlight && (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-yellow px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-brand-green-dark">
+                <Sparkles className="h-3 w-3" />
+                Destacado
+              </span>
+            )}
+            {isPast && (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground">
+                Evento pasado
+              </span>
+            )}
+          </div>
+          <h1 className="mt-3 max-w-4xl font-heading text-3xl font-bold leading-tight text-brand-green-dark sm:text-4xl lg:text-5xl">
+            {ev.title}
+          </h1>
+        </header>
+
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           {/* Main */}
           <article className="rounded-2xl bg-card p-6 shadow-xl sm:p-8 lg:col-span-2">

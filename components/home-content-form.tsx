@@ -24,6 +24,7 @@ const iconOptions = [
   ["mountain", "Montaña"], ["trophy", "Deporte"], ["users", "Cultura"],
   ["waves", "Agua"], ["footprints", "Caminata"], ["bike", "Bicicleta"],
   ["home", "Rural"], ["utensils", "Gastronomía"], ["info", "Información"],
+  ["shield", "Seguridad"], ["file", "Documento"],
 ].map(([value, label]) => ({ value, label }))
 
 const colorOptions = [
@@ -134,7 +135,7 @@ export function HomeContentForm({ initial }: { initial: HomeContentDocument }) {
       if (!response.ok) throw new Error(result.error || "No se pudo guardar la configuración")
       setContent(result.content)
       setSavedAt(new Date().toLocaleString())
-      setToast({ kind: "ok", message: "Contenido del home guardado" })
+      setToast({ kind: "ok", message: "Contenido del sitio guardado" })
     } catch (error) {
       setToast({ kind: "err", message: error instanceof Error ? error.message : "Error guardando" })
     } finally {
@@ -216,7 +217,7 @@ export function HomeContentForm({ initial }: { initial: HomeContentDocument }) {
   return (
     <div className="space-y-5">
       <div className="rounded-xl border border-brand-green/20 bg-brand-green/5 p-4 text-sm text-foreground">
-        Editá desde acá los textos, imágenes, enlaces y elementos que aparecen en el home. Las tarjetas vinculadas a una experiencia o actividad deportiva usan la ficha actual; si esa ficha no existe, muestran el contenido propio guardado en esta configuración.
+        Editá desde acá los textos, imágenes, enlaces y elementos que aparecen en el home y en la guía turística. Las tarjetas vinculadas a una experiencia o actividad deportiva usan la ficha actual; si esa ficha no existe, muestran el contenido propio guardado en esta configuración.
       </div>
 
       <details open className="rounded-2xl border border-border bg-card p-5 shadow-sm">
@@ -346,6 +347,65 @@ export function HomeContentForm({ initial }: { initial: HomeContentDocument }) {
         </div>
       </details>
 
+      <details id="guia-turistica" className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+        <summary className="cursor-pointer font-heading text-base font-bold text-brand-green-dark">Guía turística</summary>
+        <div className="mt-4 space-y-5">
+          <section className="space-y-3 rounded-xl border border-border bg-background/60 p-4">
+            <h4 className="text-sm font-semibold text-foreground">SEO de la guía</h4>
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+              {textField(["guide", "metadata", "title"], "Título SEO")}
+              {textField(["guide", "metadata", "description"], "Descripción SEO", "textarea")}
+              {textField(["guide", "metadata", "openGraphTitle"], "Título al compartir")}
+              {textField(["guide", "metadata", "openGraphDescription"], "Descripción al compartir", "textarea")}
+            </div>
+          </section>
+
+          <section className="space-y-3 rounded-xl border border-border bg-background/60 p-4">
+            <h4 className="text-sm font-semibold text-foreground">Portada</h4>
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+              {textField(["guide", "hero", "imageUrl"], "Imagen de portada", "image")}
+              {textField(["guide", "hero", "alt"], "Texto alternativo de la imagen")}
+              {textField(["guide", "hero", "eyebrow"], "Texto breve superior")}
+              {textField(["guide", "hero", "title"], "Título")}
+              {textField(["guide", "hero", "description"], "Descripción", "textarea")}
+              {textField(["guide", "hero", "downloadLabel"], "Texto del botón de descarga")}
+              {textField(["guide", "hero", "downloadHref"], "Enlace del botón de descarga")}
+              {textField(["guide", "hero", "exploreLabel"], "Texto del botón para explorar")}
+              {textField(["guide", "hero", "exploreHref"], "Enlace del botón para explorar")}
+            </div>
+          </section>
+
+          <section className="space-y-3 rounded-xl border border-border bg-background/60 p-4">
+            <h4 className="text-sm font-semibold text-foreground">Aviso de entrega por correo</h4>
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+              {textField(["guide", "delivery", "description"], "Descripción", "textarea")}
+              {textField(["guide", "delivery", "instructionPrefix"], "Texto antes del botón")}
+              {textField(["guide", "delivery", "downloadLabel"], "Texto destacado")}
+              {textField(["guide", "delivery", "instructionSuffix"], "Texto después del botón", "textarea")}
+              {textField(["guide", "delivery", "emailLabel"], "Correo visible")}
+              {textField(["guide", "delivery", "emailHref"], "Enlace del correo")}
+              {textField(["guide", "delivery", "closing"], "Texto final")}
+            </div>
+          </section>
+
+          <section className="space-y-3 rounded-xl border border-border bg-background/60 p-4">
+            <h4 className="text-sm font-semibold text-foreground">Secciones de la guía</h4>
+            {textField(["guide", "sectionsTitle"], "Título de la sección")}
+            {listEditor({ path: ["guide", "sections"], title: "Tarjetas", fields: [iconField, { key: "title", label: "Título" }, { key: "description", label: "Descripción", kind: "textarea" }], blank: { icon: "book", title: "", description: "" } })}
+          </section>
+
+          <section className="space-y-3 rounded-xl border border-border bg-background/60 p-4">
+            <h4 className="text-sm font-semibold text-foreground">Términos y privacidad</h4>
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+              {textField(["guide", "legal", "termsTitle"], "Título de términos")}
+              {textField(["guide", "legal", "termsText"], "Texto de términos", "textarea")}
+              {textField(["guide", "legal", "privacyTitle"], "Título de privacidad")}
+              {textField(["guide", "legal", "privacyText"], "Texto de privacidad", "textarea")}
+            </div>
+          </section>
+        </div>
+      </details>
+
       <details className="rounded-2xl border border-border bg-card p-5 shadow-sm">
         <summary className="cursor-pointer font-heading text-base font-bold text-brand-green-dark">Pie de página</summary>
         <div className="mt-4 space-y-5">
@@ -380,7 +440,7 @@ export function HomeContentForm({ initial }: { initial: HomeContentDocument }) {
         <div className="flex items-center gap-3">
           {toast && <span role="status" className={`text-xs font-semibold ${toast.kind === "ok" ? "text-emerald-700" : "text-red-700"}`}>{toast.message}</span>}
           <button type="button" onClick={save} disabled={saving || !!uploading} className="inline-flex items-center gap-2 rounded-lg bg-brand-green px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-green-dark disabled:opacity-60">
-            <Save className="h-4 w-4" />{saving ? "Guardando..." : "Guardar contenido del home"}
+            <Save className="h-4 w-4" />{saving ? "Guardando..." : "Guardar contenido"}
           </button>
         </div>
       </div>

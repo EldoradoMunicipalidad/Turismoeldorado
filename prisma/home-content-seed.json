@@ -147,6 +147,47 @@
       { "source": "experience", "sourceId": "visita-chacra", "icon": "home", "title": "Turismo rural", "image": "/images/act-rural.png", "href": "/que-hacer/visita-chacra" }
     ]
   },
+  "guide": {
+    "metadata": {
+      "title": "Guía turística",
+      "description": "Descargá la guía turística completa de Eldorado, Misiones. Mapas, recomendaciones, atractivos imperdibles, deportes y contactos útiles para tu visita.",
+      "openGraphTitle": "Guía turística — Eldorado",
+      "openGraphDescription": "Mapas, recomendaciones, atractivos imperdibles, deportes y contactos útiles para tu visita a Eldorado."
+    },
+    "hero": {
+      "imageUrl": "/images/hero-waterfall.png",
+      "alt": "Guía turística Eldorado",
+      "eyebrow": "Guía turística",
+      "title": "Tu próxima aventura empieza acá",
+      "description": "Descargá la guía completa de Eldorado o explorá sus secciones para planificar tu visita a la selva misionera.",
+      "downloadLabel": "Descargar guía PDF",
+      "downloadHref": "mailto:turismo@eldorado.gob.ar?subject=Solicitud%20guia%20turistica%20PDF&body=Hola%2C%20quisiera%20recibir%20la%20guia%20turistica%20de%20Eldorado%20en%20formato%20PDF.",
+      "exploreLabel": "Explorar secciones",
+      "exploreHref": "/guias-turisticas#secciones"
+    },
+    "delivery": {
+      "description": "La guía completa en PDF se entrega por correo electrónico.",
+      "instructionPrefix": "Hacé click en",
+      "downloadLabel": "Descargar guía PDF",
+      "instructionSuffix": "y te abriremos tu cliente de correo con un mensaje pre-llenado a",
+      "emailLabel": "turismo@eldorado.gob.ar",
+      "emailHref": "mailto:turismo@eldorado.gob.ar",
+      "closing": ". Recibirás la descarga en tu casilla."
+    },
+    "sectionsTitle": "¿Qué vas a encontrar?",
+    "sections": [
+      { "icon": "map", "title": "Mapa de la ciudad", "description": "Recorrido por los principales puntos de Eldorado, kilómetros y rutas de acceso." },
+      { "icon": "camera", "title": "Imperdibles", "description": "Saltos del Moconá, Reserva Delicia, Museo Cooperativo, Costanera y más." },
+      { "icon": "shield", "title": "Información útil", "description": "Emergencias, transporte, salud, recomendaciones para la selva y servicios." },
+      { "icon": "file", "title": "Calendario de eventos", "description": "Festivales, competencias y actividades durante todo el año." }
+    ],
+    "legal": {
+      "termsTitle": "Términos y condiciones",
+      "termsText": "El uso de esta guía y del sitio web está sujeto a los términos y condiciones del Municipio de Eldorado. La información publicada es de carácter orientativo y puede variar sin previo aviso. Las imágenes son ilustrativas.",
+      "privacyTitle": "Política de privacidad",
+      "privacyText": "Los datos personales que se recaben a través de los formularios de este sitio se utilizan únicamente para responder consultas y enviar información turística. No se ceden a terceros. Para ejercer derechos de acceso, rectificación o supresión, escribir a turismo@eldorado.gob.ar."
+    }
+  },
   "footer": {
     "logoUrl": "/images/logo-turismo.png",
     "logoAlt": "Turismo Eldorado",
