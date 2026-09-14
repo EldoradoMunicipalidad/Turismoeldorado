@@ -47,6 +47,42 @@ export type GuidePageContent = {
   }
 }
 
+export type MapCategory =
+  | "experiences"
+  | "events"
+  | "accommodations"
+  | "restaurants"
+  | "sportActivities"
+
+export type MapPageContent = {
+  metadata: {
+    title: string
+    description: string
+    openGraphTitle: string
+    openGraphDescription: string
+  }
+  hero: { eyebrow: string; title: string; description: string }
+  map: {
+    centerLatitude: number
+    centerLongitude: number
+    zoom: number
+    sectionTitle: string
+    sectionDescription: string
+    mapAriaLabel: string
+    loadingMessage: string
+    errorMessage: string
+    listInstruction: string
+    approximateLocationsNote: string
+  }
+  tabs: Record<MapCategory, string>
+  locations: {
+    category: MapCategory
+    itemId: string
+    latitude: number
+    longitude: number
+  }[]
+}
+
 export type HomeContentDocument = {
   version: 1
   sectionOrder: ("features" | "imperdibles" | "events" | "planifica" | "vivi")[]
@@ -180,6 +216,7 @@ export type HomeContentDocument = {
   }
   // Optional during the rollout so existing production JSON rows remain valid.
   guide?: GuidePageContent
+  mapPage?: MapPageContent
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -274,6 +311,33 @@ export function isHomeContentDocument(
     if (!isText(guide.sectionsTitle) || !Array.isArray(guide.sections)) return false
     if (!guide.sections.every((item) => isRecord(item) && ["icon", "title", "description"].every((key) => isText(item[key])))) return false
     if (!["termsTitle", "termsText", "privacyTitle", "privacyText"].every((key) => isText(guideLegal[key]))) return false
+  }
+
+  if (value.mapPage !== undefined) {
+    const mapPage = value.mapPage
+    if (!isRecord(mapPage)) return false
+    const mapMetadata = mapPage.metadata
+    const mapHero = mapPage.hero
+    const map = mapPage.map
+    const tabs = mapPage.tabs
+    const locations = mapPage.locations
+    if (!isRecord(mapMetadata) || !isRecord(mapHero) || !isRecord(map) || !isRecord(tabs)) return false
+    if (!["title", "description", "openGraphTitle", "openGraphDescription"].every((key) => isText(mapMetadata[key]))) return false
+    if (!["eyebrow", "title", "description"].every((key) => isText(mapHero[key]))) return false
+    if (!["sectionTitle", "sectionDescription", "mapAriaLabel", "loadingMessage", "errorMessage", "listInstruction", "approximateLocationsNote"].every((key) => isText(map[key]))) return false
+    if (typeof map.centerLatitude !== "number" || !Number.isFinite(map.centerLatitude) || map.centerLatitude < -90 || map.centerLatitude > 90) return false
+    if (typeof map.centerLongitude !== "number" || !Number.isFinite(map.centerLongitude) || map.centerLongitude < -180 || map.centerLongitude > 180) return false
+    if (typeof map.zoom !== "number" || !Number.isInteger(map.zoom) || map.zoom < 1 || map.zoom > 20) return false
+    const mapCategories: MapCategory[] = ["experiences", "events", "accommodations", "restaurants", "sportActivities"]
+    if (!mapCategories.every((category) => isText(tabs[category]))) return false
+    if (!Array.isArray(locations)) return false
+    if (!locations.every((location) =>
+      isRecord(location) &&
+      mapCategories.includes(location.category as MapCategory) &&
+      isText(location.itemId) &&
+      typeof location.latitude === "number" && Number.isFinite(location.latitude) && location.latitude >= -90 && location.latitude <= 90 &&
+      typeof location.longitude === "number" && Number.isFinite(location.longitude) && location.longitude >= -180 && location.longitude <= 180
+    )) return false
   }
 
   return true

@@ -16,6 +16,7 @@ export default async function AdminHomePage() {
   const homeContent: HomeContentDocument = {
     ...storedContent,
     guide: storedContent.guide ?? (initialHomeContent as HomeContentDocument).guide,
+    mapPage: storedContent.mapPage ?? (initialHomeContent as HomeContentDocument).mapPage,
   }
   return (
     <div className="space-y-6">
@@ -29,7 +30,7 @@ export default async function AdminHomePage() {
           </h1>
         </div>
         <p className="mt-1 text-sm text-muted-foreground">
-            Administrá el contenido de la portada y de la guía turística. Guardá los cambios para publicarlos.
+          Administrá el contenido de la portada, la guía turística y el mapa. Guardá los cambios para publicarlos.
         </p>
       </div>
       <HomeContentForm initial={JSON.parse(JSON.stringify(homeContent))} />

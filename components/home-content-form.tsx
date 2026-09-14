@@ -8,6 +8,9 @@ type FieldSpec = {
   key: string
   label: string
   kind?: "text" | "textarea" | "image" | "checkbox" | "select" | "number"
+  min?: number
+  max?: number
+  step?: number
   options?: { value: string; label: string }[]
 }
 
@@ -36,6 +39,14 @@ const colorOptions = [
 const sourceOptions = [
   { value: "experience", label: "Experiencia" },
   { value: "sportActivity", label: "Actividad deportiva" },
+]
+
+const mapCategoryOptions = [
+  { value: "experiences", label: "Experiencias" },
+  { value: "events", label: "Eventos" },
+  { value: "accommodations", label: "Alojamientos" },
+  { value: "restaurants", label: "Gastronomía" },
+  { value: "sportActivities", label: "Deportes" },
 ]
 
 const sharedLinkFields: FieldSpec[] = [
@@ -143,7 +154,12 @@ export function HomeContentForm({ initial }: { initial: HomeContentDocument }) {
     }
   }
 
-  function textField(path: string[], label: string, kind: FieldSpec["kind"] = "text") {
+  function textField(
+    path: string[],
+    label: string,
+    kind: FieldSpec["kind"] = "text",
+    limits?: Pick<FieldSpec, "min" | "max" | "step">,
+  ) {
     const id = path.join("-")
     const value = readPath(content, path)
     return (
@@ -152,6 +168,9 @@ export function HomeContentForm({ initial }: { initial: HomeContentDocument }) {
         id={id}
         label={label}
         kind={kind}
+        min={limits?.min}
+        max={limits?.max}
+        step={limits?.step}
         value={value}
         uploading={uploading === path.join(".")}
         onChange={(next) => setPath(path, next)}
@@ -195,6 +214,9 @@ export function HomeContentForm({ initial }: { initial: HomeContentDocument }) {
                     id={`${spec.path.join("-")}-${index}-${field.key}`}
                     label={field.label}
                     kind={field.kind ?? "text"}
+                    min={field.min}
+                    max={field.max}
+                    step={field.step}
                     value={item[field.key]}
                     options={field.options}
                     uploading={uploading === `${spec.path.join(".")}.${index}.${field.key}`}
@@ -406,6 +428,65 @@ export function HomeContentForm({ initial }: { initial: HomeContentDocument }) {
         </div>
       </details>
 
+      <details id="mapa" open className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+        <summary className="cursor-pointer font-heading text-base font-bold text-brand-green-dark">Mapa</summary>
+        <div className="mt-4 space-y-5">
+          <section className="space-y-3 rounded-xl border border-border bg-background/60 p-4">
+            <h4 className="text-sm font-semibold text-foreground">SEO y portada</h4>
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+              {textField(["mapPage", "metadata", "title"], "Título SEO")}
+              {textField(["mapPage", "metadata", "description"], "Descripción SEO", "textarea")}
+              {textField(["mapPage", "metadata", "openGraphTitle"], "Título al compartir")}
+              {textField(["mapPage", "metadata", "openGraphDescription"], "Descripción al compartir", "textarea")}
+              {textField(["mapPage", "hero", "eyebrow"], "Texto breve superior")}
+              {textField(["mapPage", "hero", "title"], "Título de portada")}
+              {textField(["mapPage", "hero", "description"], "Descripción de portada", "textarea")}
+            </div>
+          </section>
+
+          <section className="space-y-3 rounded-xl border border-border bg-background/60 p-4">
+            <h4 className="text-sm font-semibold text-foreground">Mapa y textos visibles</h4>
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+              {textField(["mapPage", "map", "sectionTitle"], "Título de la sección")}
+              {textField(["mapPage", "map", "sectionDescription"], "Descripción de la sección", "textarea")}
+              {textField(["mapPage", "map", "mapAriaLabel"], "Texto accesible del mapa")}
+              {textField(["mapPage", "map", "loadingMessage"], "Mensaje de carga")}
+              {textField(["mapPage", "map", "errorMessage"], "Mensaje de error", "textarea")}
+              {textField(["mapPage", "map", "listInstruction"], "Instrucción de la lista")}
+              {textField(["mapPage", "map", "approximateLocationsNote"], "Nota sobre ubicaciones aproximadas")}
+              {textField(["mapPage", "map", "centerLatitude"], "Latitud inicial", "number", { min: -90, max: 90, step: 0.0001 })}
+              {textField(["mapPage", "map", "centerLongitude"], "Longitud inicial", "number", { min: -180, max: 180, step: 0.0001 })}
+              {textField(["mapPage", "map", "zoom"], "Zoom inicial", "number", { min: 1, max: 20, step: 1 })}
+            </div>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {textField(["mapPage", "tabs", "experiences"], "Etiqueta: experiencias")}
+              {textField(["mapPage", "tabs", "events"], "Etiqueta: eventos")}
+              {textField(["mapPage", "tabs", "accommodations"], "Etiqueta: alojamientos")}
+              {textField(["mapPage", "tabs", "restaurants"], "Etiqueta: gastronomía")}
+              {textField(["mapPage", "tabs", "sportActivities"], "Etiqueta: deportes")}
+            </div>
+          </section>
+
+          <section className="space-y-3 rounded-xl border border-border bg-background/60 p-4">
+            <h4 className="text-sm font-semibold text-foreground">Pines con ubicación exacta</h4>
+            <p className="text-xs text-muted-foreground">
+              Opcional: cargá coordenadas para reemplazar la posición aproximada de un elemento. Usá el ID de su ficha en la sección correspondiente del admin.
+            </p>
+            {listEditor({
+              path: ["mapPage", "locations"],
+              title: "Ubicaciones",
+              fields: [
+                { key: "category", label: "Sección", kind: "select", options: mapCategoryOptions },
+                { key: "itemId", label: "ID de la ficha" },
+                { key: "latitude", label: "Latitud", kind: "number", min: -90, max: 90, step: 0.000001 },
+                { key: "longitude", label: "Longitud", kind: "number", min: -180, max: 180, step: 0.000001 },
+              ],
+              blank: { category: "experiences", itemId: "", latitude: 0, longitude: 0 },
+            })}
+          </section>
+        </div>
+      </details>
+
       <details className="rounded-2xl border border-border bg-card p-5 shadow-sm">
         <summary className="cursor-pointer font-heading text-base font-bold text-brand-green-dark">Pie de página</summary>
         <div className="mt-4 space-y-5">
@@ -454,6 +535,9 @@ function Field({
   kind = "text",
   value,
   options,
+  min,
+  max,
+  step,
   uploading,
   onChange,
   onUpload,
@@ -463,6 +547,9 @@ function Field({
   kind?: FieldSpec["kind"]
   value: unknown
   options?: FieldSpec["options"]
+  min?: number
+  max?: number
+  step?: number
   uploading?: boolean
   onChange: (value: unknown) => void
   onUpload: (file: File) => void
@@ -488,7 +575,7 @@ function Field({
         </select>
       ) : (
         <div className="flex gap-2">
-          <input id={id} type={kind === "number" ? "number" : "text"} min={kind === "number" ? 0 : undefined} max={kind === "number" ? 20 : undefined} value={String(value ?? "")} onChange={(event: ChangeEvent<HTMLInputElement>) => onChange(kind === "number" ? Number(event.target.value) : event.target.value)} className="h-10 min-w-0 flex-1 rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-brand-green" />
+          <input id={id} type={kind === "number" ? "number" : "text"} min={kind === "number" ? min ?? 0 : undefined} max={kind === "number" ? max ?? 20 : undefined} step={kind === "number" ? step ?? 1 : undefined} value={String(value ?? "")} onChange={(event: ChangeEvent<HTMLInputElement>) => onChange(kind === "number" ? Number(event.target.value) : event.target.value)} className="h-10 min-w-0 flex-1 rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-brand-green" />
           {kind === "image" && (
             <label className="inline-flex h-10 shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-border bg-background px-3 text-xs font-semibold hover:bg-muted">
               <Upload className="h-3.5 w-3.5" />{uploading ? "Subiendo" : "Subir"}

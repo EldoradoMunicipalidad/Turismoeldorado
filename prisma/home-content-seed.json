@@ -188,6 +188,39 @@
       "privacyText": "Los datos personales que se recaben a través de los formularios de este sitio se utilizan únicamente para responder consultas y enviar información turística. No se ceden a terceros. Para ejercer derechos de acceso, rectificación o supresión, escribir a turismo@eldorado.gob.ar."
     }
   },
+  "mapPage": {
+    "metadata": {
+      "title": "Mapa",
+      "description": "Mapa interactivo de Eldorado: experiencias, eventos, alojamientos, restaurantes y deportes. Encontrá todo lo que la ciudad tiene para ofrecer en un solo lugar.",
+      "openGraphTitle": "Mapa interactivo — Eldorado",
+      "openGraphDescription": "Explorá atractivos, alojamientos, gastronomía, deportes y eventos en el mapa de Eldorado."
+    },
+    "hero": {
+      "eyebrow": "Mapa del sitio",
+      "title": "Mapa interactivo",
+      "description": "Encontrá en el mapa todo lo que Eldorado tiene para ofrecer: atractivos, alojamientos, gastronomía, deportes y eventos."
+    },
+    "map": {
+      "centerLatitude": -26.4049,
+      "centerLongitude": -54.6246,
+      "zoom": 12,
+      "sectionTitle": "Mapa del sitio",
+      "sectionDescription": "Explorá los atractivos, alojamientos, restaurantes y actividades de Eldorado en el mapa.",
+      "mapAriaLabel": "Mapa interactivo de Eldorado",
+      "loadingMessage": "Cargando mapa…",
+      "errorMessage": "No pudimos cargar el mapa interactivo. Verificá tu conexión e intentá nuevamente.",
+      "listInstruction": "Hacé click en un pin del mapa o en un item de la lista para ver el detalle.",
+      "approximateLocationsNote": "Las ubicaciones sin coordenadas exactas son aproximadas."
+    },
+    "tabs": {
+      "experiences": "Experiencias",
+      "events": "Eventos",
+      "accommodations": "Alojamientos",
+      "restaurants": "Gastronomía",
+      "sportActivities": "Deportes"
+    },
+    "locations": []
+  },
   "footer": {
     "logoUrl": "/images/logo-turismo.png",
     "logoAlt": "Turismo Eldorado",

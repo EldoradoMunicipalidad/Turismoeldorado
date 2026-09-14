@@ -34,6 +34,11 @@ const NAV: {
     Icon: Home,
   },
   {
+    href: "/admin/home#mapa",
+    label: "Contenido del mapa",
+    Icon: MapIcon,
+  },
+  {
     href: "/admin/experiences",
     label: "Qué hacer",
     Icon: Compass,
